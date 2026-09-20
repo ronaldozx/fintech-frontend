@@ -8,9 +8,9 @@ type DashboardResult = {
     error: string | null;
 };
 
-export function useDashboard({ startDate, endDate, page, size }: DashboardParams) {
+export function useDashboard({ startDate, endDate, page, size }: DashboardParams, reloadKey = 0) {
     const [result, setResult] = useState<DashboardResult | null>(null);
-    const key = `${startDate}|${endDate}|${page ?? ""}|${size ?? ""}`;
+    const key = `${startDate}|${endDate}|${page ?? ""}|${size ?? ""}|${reloadKey}`;
 
     useEffect(() => {
         let active = true;
