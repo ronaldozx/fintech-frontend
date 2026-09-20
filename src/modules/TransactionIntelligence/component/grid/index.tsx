@@ -15,8 +15,12 @@ function getPeriod() {
 
 const period = getPeriod();
 
-export function TransactionIntelligence() {
-  const { data, loading } = useDashboard({ ...period, size: PAGE_SIZE });
+type TransactionIntelligenceProps = {
+  reloadKey?: number;
+};
+
+export function TransactionIntelligence({ reloadKey }: TransactionIntelligenceProps) {
+  const { data, loading } = useDashboard({ ...period, size: PAGE_SIZE }, reloadKey);
 
   const formatDescription = (desc: string) => {
     return desc.split(" - ")[0].trim();
