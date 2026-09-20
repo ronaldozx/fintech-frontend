@@ -1,36 +1,28 @@
-import { useContext, useEffect, useState } from "react";
 import Table, { type Column } from "../../../../components/table";
 import { Container, Header } from "./style";
-import { AuthContext } from "../../../../context/auth/AuthContext";
-import { formatDate } from "../../../../utils/format";
-import { getAllTransactions } from "../../../../services/transaction";
+import { formatDate, formatIsoDate } from "../../../../utils/format";
+import { useDashboard } from "../../../../hooks/useDashboard";
+import type { Transaction } from "../../../../types/Transaction";
 
-type CashFlowEntry = {
-  date: string;
-  description: string;
-  amount: number;
-  category: string;
-};
+const PERIOD_MONTHS = 12;
+const PAGE_SIZE = 200;
+
+function getPeriod() {
+  const end = new Date();
+  const start = new Date(end.getFullYear(), end.getMonth() - PERIOD_MONTHS, end.getDate());
+  return { startDate: formatIsoDate(start), endDate: formatIsoDate(end) };
+}
+
+const period = getPeriod();
 
 export function TransactionIntelligence() {
-  const auth = useContext(AuthContext);
-  const [data, setData] = useState<CashFlowEntry[]>([]);
-  useEffect(() => {
-    if (!auth?.user?.id) return;
-    
-    getAllTransactions(auth.user.id)
-      .then((result) => setData(result || []))
-      .catch((error) => {
-        console.error("Erro ao carregar fluxo de caixa:", error);
-        setData([]);
-      });
-  }, [auth?.user?.id]);
+  const { data, loading } = useDashboard({ ...period, size: PAGE_SIZE });
 
   const formatDescription = (desc: string) => {
     return desc.split(" - ")[0].trim();
   };
 
-  const columns: Column<CashFlowEntry>[] = [
+  const columns: Column<Transaction>[] = [
     { key: 'date', title: 'Data', width: 120, sortable: true, render: (value) => formatDate(value.date) },
     { key: 'description', title: 'Descrição', sortable: true, render: (value) => formatDescription(value.description) },
     { key: 'amount', title: 'Valor', align: 'right', sortable: true,
@@ -51,7 +43,7 @@ export function TransactionIntelligence() {
           TransactionIntelligence
         </Header>
         <div style={{ height: "230px"}}>
-          <Table data={data} columns={columns} pageSize={10} /> 
+          <Table data={data?.transactions.content ?? []} columns={columns} pageSize={10} loading={loading} />
         </div>
     </Container>
   );

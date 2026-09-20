@@ -23,6 +23,7 @@ export function Register({ onLogin }: { onLogin: () => void }) {
 const handleRegister = async() => {
   try {
     await registerAuth(registerData);
+    onLogin();
   } catch (error) {
     if (error instanceof Error) {
       setError(error.message);
