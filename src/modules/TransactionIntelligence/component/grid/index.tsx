@@ -1,26 +1,19 @@
 import Table, { type Column } from "../../../../components/table";
-import { Container, Header } from "./style";
-import { formatDate, formatIsoDate } from "../../../../utils/format";
+import { Frame } from "../../../../components/frame";
+import { formatDate } from "../../../../utils/format";
 import { useDashboard } from "../../../../hooks/useDashboard";
-import type { Transaction } from "../../../../types/Transaction";
+import type { DateRange, Transaction } from "../../../../types/Transaction";
+import { TableArea } from "./style";
 
-const PERIOD_MONTHS = 12;
 const PAGE_SIZE = 200;
 
-function getPeriod() {
-  const end = new Date();
-  const start = new Date(end.getFullYear(), end.getMonth() - PERIOD_MONTHS, end.getDate());
-  return { startDate: formatIsoDate(start), endDate: formatIsoDate(end) };
-}
-
-const period = getPeriod();
-
 type TransactionIntelligenceProps = {
+  range: DateRange;
   reloadKey?: number;
 };
 
-export function TransactionIntelligence({ reloadKey }: TransactionIntelligenceProps) {
-  const { data, loading } = useDashboard({ ...period, size: PAGE_SIZE }, reloadKey);
+export function TransactionIntelligence({ range, reloadKey }: TransactionIntelligenceProps) {
+  const { data, loading } = useDashboard({ ...range, size: PAGE_SIZE }, reloadKey);
 
   const formatDescription = (desc: string) => {
     return desc.split(" - ")[0].trim();
@@ -29,6 +22,7 @@ export function TransactionIntelligence({ reloadKey }: TransactionIntelligencePr
   const columns: Column<Transaction>[] = [
     { key: 'date', title: 'Data', width: 120, sortable: true, render: (value) => formatDate(value.date) },
     { key: 'description', title: 'Descrição', sortable: true, render: (value) => formatDescription(value.description) },
+    { key: 'category', title: 'Categoria', sortable: true, render: (value) => value.category ?? 'Outros' },
     { key: 'amount', title: 'Valor', align: 'right', sortable: true,
       render: (row) => {
         const formatted = Math.abs(row.amount).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -42,13 +36,10 @@ export function TransactionIntelligence({ reloadKey }: TransactionIntelligencePr
   ];
 
   return (
-    <Container>
-        <Header>
-          TransactionIntelligence
-        </Header>
-        <div style={{ height: "230px"}}>
-          <Table data={data?.transactions.content ?? []} columns={columns} pageSize={10} loading={loading} />
-        </div>
-    </Container>
+    <Frame title="Transações">
+      <TableArea>
+        <Table data={data?.transactions.content ?? []} columns={columns} pageSize={10} loading={loading} />
+      </TableArea>
+    </Frame>
   );
 }

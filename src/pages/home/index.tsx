@@ -4,16 +4,24 @@ import { NavBar } from "../../components/navBar";
 import { Sidebar } from "../../components/sidebar";
 import { ConnectBank } from "../../components/connectBank";
 import { BankConnectionsModal } from "../../components/bankConnections";
-import { Content, Header, ContentModules } from "./style";
-import { faBuildingColumns, faFilter } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { PeriodFilter } from "../../components/periodFilter";
+import { CashFlowCell, CategoryCell, Content, ContentModules, Header, TransactionsCell } from "./style";
+import { faBuildingColumns } from "@fortawesome/free-solid-svg-icons";
+import { useMemo, useState } from "react";
 import { CashFlow } from "../../modules/CashFlow/component/grid";
+import { CategoryBreakdown } from "../../modules/CategoryBreakdown/component/grid";
 import { TransactionIntelligence } from "../../modules/TransactionIntelligence/component/grid/index";
+import { useSummary } from "../../hooks/useSummary";
+import { DEFAULT_PERIOD, getPeriodRange, type PeriodMonths } from "../../utils/period";
 
 
 export function Home() {
     const [banksOpen, setBanksOpen] = useState(false);
     const [reloadKey, setReloadKey] = useState(0);
+    const [months, setMonths] = useState<PeriodMonths>(DEFAULT_PERIOD);
+
+    const range = useMemo(() => getPeriodRange(months), [months]);
+    const { data, loading, error } = useSummary(range, reloadKey);
 
     function reload() {
         setReloadKey((key) => key + 1);
@@ -29,11 +37,18 @@ export function Home() {
                     <DefaultButtonStyle onClick={() => setBanksOpen(true)} title="Bancos conectados">
                         <FontAwesomeIcon icon={faBuildingColumns}></FontAwesomeIcon>
                     </DefaultButtonStyle>
-                    <DefaultButtonStyle><FontAwesomeIcon icon={faFilter}></FontAwesomeIcon></DefaultButtonStyle>
+                    <PeriodFilter value={months} onChange={setMonths} />
                 </Header>
                 <ContentModules>
-                    <CashFlow/>
-                    <TransactionIntelligence reloadKey={reloadKey} />
+                    <CashFlowCell>
+                        <CashFlow range={range} summary={data?.monthly ?? null} loading={loading} error={error} />
+                    </CashFlowCell>
+                    <CategoryCell>
+                        <CategoryBreakdown summary={data?.categories ?? null} loading={loading} error={error} />
+                    </CategoryCell>
+                    <TransactionsCell>
+                        <TransactionIntelligence range={range} reloadKey={reloadKey} />
+                    </TransactionsCell>
                 </ContentModules>
 
                 <BankConnectionsModal
