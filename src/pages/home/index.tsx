@@ -3,7 +3,6 @@ import { DefaultButtonStyle } from "../../components/button/style";
 import { NavBar } from "../../components/navBar";
 import { Sidebar } from "../../components/sidebar";
 import Modal from "../../components/modal";
-import { useAuth } from "../../hooks/useAuth";
 import { CancelButton, Content, FileInput, FileLabel, FileName, FormRow, Header, ErrorText, FileButton, ContentModules } from "./style";
 import { faFilter, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useState, type ChangeEvent, useRef } from "react";
@@ -16,7 +15,6 @@ export function Home() {
     const [openModalCreate, setOpenModalCreate] = useState(false);
     const [attachedFile, setAttachedFile] = useState<File | null>(null);
     const [isUploading, setIsUploading] = useState(false);
-    const { user } = useAuth();
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
     const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -30,18 +28,13 @@ export function Home() {
         if (!attachedFile) return;
         setIsUploading(true);
         setErrorMsg(null);
-        const userId = user?.id ? Number(user.id) : undefined;
-        console.log("Iniciando upload do arquivo:", attachedFile.name, "para o usuário ID:", userId);
         (async () => {
             try {
-                if (!userId) throw new Error('Usuário não identificado');
-                await importOfx(attachedFile, userId);
+                await importOfx(attachedFile);
                 setOpenModalCreate(false);
                 setAttachedFile(null);
             } catch (err) {
-                const message = err instanceof Error ? err.message : String(err);
-                setErrorMsg(message);
-                console.error('Erro ao enviar arquivo:', err);
+                setErrorMsg(err instanceof Error ? err.message : "Erro ao importar extrato");
             } finally {
                 setIsUploading(false);
             }

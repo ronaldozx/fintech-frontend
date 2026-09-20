@@ -17,7 +17,7 @@ const PlusIcon = () => (
 );
 
 export function NavBar() {
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
     const [ menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -95,7 +95,7 @@ export function NavBar() {
                                 </UserContent>
                         
                                 <LinkedText><FontAwesomeIcon icon={faGear} />Configurations</LinkedText>
-                                <LinkedText><FontAwesomeIcon icon={faSignOutAlt} />Logout</LinkedText>
+                                <LinkedText onClick={logout}><FontAwesomeIcon icon={faSignOutAlt} />Logout</LinkedText>
                             </Content>
                         </UserSideBar>
                     )}
