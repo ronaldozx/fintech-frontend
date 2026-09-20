@@ -6,6 +6,8 @@ export const Content = styled.div`
     padding: 24px;
     height: calc(100vh - 80px);
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
     gap: 24px;
 `;
 
@@ -20,11 +22,25 @@ export const Header = styled.div`
 `;
 
 export const ContentModules = styled.div`
+    flex: 1;
+    min-height: 0;
     display: grid;
-    height: 100%;
-    width: 100%;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1.4fr) minmax(0, 1fr);
     gap: 24px;
     padding: 8px;
+`;
+
+export const CashFlowCell = styled.div`
+    grid-column: span 2;
+    min-height: 0;
+`;
+
+export const CategoryCell = styled.div`
+    min-height: 0;
+`;
+
+export const TransactionsCell = styled.div`
+    grid-column: 1 / -1;
+    min-height: 0;
 `;

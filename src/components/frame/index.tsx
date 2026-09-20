@@ -1,8 +1,20 @@
+import type { ReactNode } from "react";
+import { Actions, Body, Container, Header } from "./style";
 
-export function Frame() {
+type FrameProps = {
+    title: string;
+    actions?: ReactNode;
+    children: ReactNode;
+};
+
+export function Frame({ title, actions, children }: FrameProps) {
     return (
-        <div>
-            <p>Frame</p>
-        </div>
-    )
+        <Container>
+            <Header>
+                <span>{title}</span>
+                {actions && <Actions>{actions}</Actions>}
+            </Header>
+            <Body>{children}</Body>
+        </Container>
+    );
 }
