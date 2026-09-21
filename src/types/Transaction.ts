@@ -37,6 +37,44 @@ export type DashboardParams = DateRange & {
     size?: number;
 };
 
+export type TransactionRow = {
+    id: number;
+    description: string;
+    amount: number;
+    date: string;
+    type: TransactionType;
+    paymentMethod: PaymentMethod;
+    category: string | null;
+    neutral: boolean;
+};
+
+export type TransactionSearch = {
+    transactions: Page<TransactionRow>;
+    totalIncome: number;
+    totalExpense: number;
+};
+
+export type TransactionScope = "all" | "counted" | "neutral";
+
+export type TransactionFilters = {
+    q: string;
+    category: string;
+    type: "" | TransactionType;
+    paymentMethod: "" | PaymentMethod;
+    scope: TransactionScope;
+};
+
+export type TransactionSortDirection = "asc" | "desc";
+
+export type TransactionQuery = {
+    range: DateRange;
+    filters: TransactionFilters;
+    page: number;
+    size: number;
+    sortKey: string;
+    sortDir: TransactionSortDirection;
+};
+
 export type MonthlySummary = {
     month: string;
     income: number;

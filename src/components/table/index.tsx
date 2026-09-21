@@ -23,6 +23,11 @@ export type Column<T> = {
 	sortable?: boolean;
 };
 
+export type TableSort = {
+	key: string;
+	dir: "asc" | "desc";
+};
+
 type TableProps<T> = {
 	columns: Column<T>[];
 	data: T[];
@@ -32,6 +37,8 @@ type TableProps<T> = {
 	noDataMessage?: string;
 	pageSize?: number;
 	onRowClick?: (row: T) => void;
+	sort?: TableSort;
+	onSortChange?: (sort: TableSort) => void;
 };
 
 function defaultRowKey<T>(row: T) {
@@ -50,15 +57,20 @@ export function Table<T extends Record<string, unknown>>(props: TableProps<T>): 
 		noDataMessage = "Nenhum dado disponível",
 		pageSize = 10,
 		onRowClick,
+		sort,
+		onSortChange,
 	} = props;
 
-	const [sortBy, setSortBy] = useState<string | null>(null);
-	const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
+	const manual = onSortChange !== undefined;
+	const [localSortBy, setSortBy] = useState<string | null>(null);
+	const [localSortDir, setSortDir] = useState<"asc" | "desc">("asc");
 	const [page, setPage] = useState(1);
+	const sortBy = manual ? (sort?.key ?? null) : localSortBy;
+	const sortDir = manual ? (sort?.dir ?? "asc") : localSortDir;
 
 	const processed = useMemo(() => {
 		const list = [...data];
-		if (sortBy) {
+		if (!manual && sortBy) {
 			list.sort((a, b) => {
 				const aa = a as unknown as Record<string, unknown>;
 				const bb = b as unknown as Record<string, unknown>;
@@ -75,16 +87,21 @@ export function Table<T extends Record<string, unknown>>(props: TableProps<T>): 
 			});
 		}
 		return list;
-	}, [data, sortBy, sortDir]);
+	}, [data, sortBy, sortDir, manual]);
 
 	const totalPages = Math.max(1, Math.ceil(processed.length / pageSize));
 	const pageData = useMemo(() => {
+		if (manual) return processed;
 		const start = (page - 1) * pageSize;
 		return processed.slice(start, start + pageSize);
-	}, [processed, page, pageSize]);
+	}, [processed, page, pageSize, manual]);
 
 	function handleSort(col: Column<T>) {
 		if (!col.sortable) return;
+		if (onSortChange) {
+			onSortChange({ key: col.key, dir: sortBy === col.key && sortDir === "asc" ? "desc" : "asc" });
+			return;
+		}
 		if (sortBy === col.key) {
 			setSortDir((d) => (d === "asc" ? "desc" : "asc"));
 		} else {
@@ -139,7 +156,7 @@ export function Table<T extends Record<string, unknown>>(props: TableProps<T>): 
 				</Tbody>
 			</StyledTable>
 
-			{processed.length > pageSize && (
+			{!manual && processed.length > pageSize && (
 				<PaginationContainer>
 					<PageButton onClick={() => setPage(1)} disabled={page === 1}>
 						«
