@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { getCategorySummary, getMonthlySummary } from "../services/transaction";
+import { getCategorySummary, getDailySummary, getMonthlySummary } from "../services/transaction";
 import type { DateRange, SummaryData } from "../types/Transaction";
+import { isSingleMonth } from "../utils/period";
 
 type SummaryResult = {
     key: string;
@@ -14,10 +15,15 @@ export function useSummary({ startDate, endDate }: DateRange, reloadKey: number)
 
     useEffect(() => {
         let active = true;
+        const range = { startDate, endDate };
 
-        Promise.all([getMonthlySummary({ startDate, endDate }), getCategorySummary({ startDate, endDate })])
-            .then(([monthly, categories]) => {
-                if (active) setResult({ key, data: { monthly, categories }, error: null });
+        Promise.all([
+            getMonthlySummary(range),
+            isSingleMonth(range) ? getDailySummary(range) : Promise.resolve([]),
+            getCategorySummary(range),
+        ])
+            .then(([monthly, daily, categories]) => {
+                if (active) setResult({ key, data: { monthly, daily, categories }, error: null });
             })
             .catch((err) => {
                 if (active) setResult((previous) => ({
