@@ -1,4 +1,4 @@
-import { faHome, faReceipt, type IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faReceipt, faWallet, type IconDefinition } from "@fortawesome/free-solid-svg-icons";
 
 export type NavItemConfig = {
     path: string;
@@ -9,4 +9,5 @@ export type NavItemConfig = {
 export const NAV_ITEMS: NavItemConfig[] = [
     { path: "/home", label: "Visão geral", icon: faHome },
     { path: "/transacoes", label: "Transações", icon: faReceipt },
+    { path: "/contas", label: "Contas e cartões", icon: faWallet },
 ];
