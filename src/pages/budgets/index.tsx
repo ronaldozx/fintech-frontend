@@ -4,6 +4,7 @@ import { faPen, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { BudgetModal } from "../../components/budgetModal";
 import { DefaultButtonStyle } from "../../components/button/style";
 import { Frame } from "../../components/frame";
+import { Fill } from "../../components/pageFill/style";
 import { MonthNavigator } from "../../components/monthNavigator";
 import { PageHeader } from "../../components/pageHeader";
 import { StatTile } from "../../components/statTile";
@@ -94,6 +95,7 @@ export function Budgets() {
                 <StatTile label="Perto do limite" value={data ? String(counts.warning) : "—"} accent={theme.colors.warning} />
             </Stats>
 
+            <Fill>
             {data && budgets.length === 0 && (
                 <Message>Nenhum orçamento ainda. Use “Novo orçamento” para definir um limite mensal por categoria.</Message>
             )}
@@ -122,22 +124,27 @@ export function Budgets() {
             </Cards>
 
             {data && data.unbudgeted.length > 0 && (
-                <Frame title="Gastos sem orçamento">
+                <Frame title="Gastos sem orçamento" fit>
                     <UnbudgetedList>
                         {data.unbudgeted.map((item) => (
-                            <UnbudgetedItem key={item.category}>
-                                {item.category}
+                            <UnbudgetedItem key={item.category} title={item.category}>
                                 <UnbudgetedInfo>
+                                    <strong>{item.category}</strong>
                                     <span>{formatMoney(item.spent)}</span>
-                                    <DefaultButtonStyle onClick={() => setTarget({ mode: "create", category: item.category })}>
-                                        <FontAwesomeIcon icon={faPlus} /> Definir limite
-                                    </DefaultButtonStyle>
                                 </UnbudgetedInfo>
+                                <IconButton
+                                    onClick={() => setTarget({ mode: "create", category: item.category })}
+                                    aria-label={`Definir limite para ${item.category}`}
+                                    title="Definir limite"
+                                >
+                                    <FontAwesomeIcon icon={faPlus} />
+                                </IconButton>
                             </UnbudgetedItem>
                         ))}
                     </UnbudgetedList>
                 </Frame>
             )}
+            </Fill>
 
             {target && (
                 <BudgetModal target={target} budgets={budgets} categories={categories} onClose={() => setTarget(null)} onSaved={handleSaved} />

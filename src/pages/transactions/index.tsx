@@ -1,10 +1,11 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { DefaultButtonStyle } from "../../components/button/style";
 import { CustomInput } from "../../components/customInput";
 import { Frame } from "../../components/frame";
 import { NeutralTag } from "../../components/neutralTag";
+import { Fill } from "../../components/pageFill/style";
 import { PageHeader } from "../../components/pageHeader";
 import { Pagination } from "../../components/pagination";
 import { PeriodFilter } from "../../components/periodFilter";
@@ -13,6 +14,7 @@ import { StatTile } from "../../components/statTile";
 import Table, { type Column, type TableSort } from "../../components/table";
 import { ErrorText } from "../../components/bankConnections/style";
 import { useDebouncedValue } from "../../hooks/useDebouncedValue";
+import { useFitViewport } from "../../hooks/useFitViewport";
 import { useTransactionCategories, useTransactionSearch } from "../../hooks/useTransactionSearch";
 import { downloadTransactionsCsv } from "../../services/transaction";
 import { chartColors } from "../../styles/chart";
@@ -46,11 +48,12 @@ const SCOPE_OPTIONS: SelectOption<TransactionScope>[] = [
 ];
 
 const columns: Column<TransactionRow>[] = [
-    { key: "date", title: "Data", width: 120, sortable: true, render: (row) => formatDate(row.date) },
+    { key: "date", title: "Data", width: 110, sortable: true, render: (row) => formatDate(row.date) },
     { key: "description", title: "Descrição", sortable: true },
     {
         key: "category",
         title: "Categoria",
+        width: 220,
         sortable: true,
         render: (row) => (
             <>
@@ -59,10 +62,11 @@ const columns: Column<TransactionRow>[] = [
             </>
         ),
     },
-    { key: "paymentMethod", title: "Pagamento", render: (row) => (row.paymentMethod === "CREDIT" ? "Crédito" : "Débito") },
+    { key: "paymentMethod", title: "Pagamento", width: 110, render: (row) => (row.paymentMethod === "CREDIT" ? "Crédito" : "Débito") },
     {
         key: "amount",
         title: "Valor",
+        width: 160,
         align: "right",
         sortable: true,
         render: (row) => (
@@ -81,6 +85,9 @@ export function Transactions() {
     const [sort, setSort] = useState<TableSort>({ key: "date", dir: "desc" });
     const [exporting, setExporting] = useState(false);
     const [exportError, setExportError] = useState<string | null>(null);
+    const [fitSize, setFitSize] = useState<number | null>(null);
+    const fitSizeRef = useRef<number | null>(null);
+    const fitViewport = useFitViewport();
 
     const debouncedText = useDebouncedValue(filters.q, SEARCH_DELAY_MS);
     const categories = useTransactionCategories();
@@ -91,11 +98,11 @@ export function Transactions() {
             range,
             filters: { ...filters, q: debouncedText },
             page,
-            size: PAGE_SIZE,
+            size: fitViewport && fitSize ? fitSize : PAGE_SIZE,
             sortKey: sort.key,
             sortDir: sort.dir,
         }),
-        [range, filters, debouncedText, page, sort],
+        [range, filters, debouncedText, page, sort, fitViewport, fitSize],
     );
 
     const { data, loading, error } = useTransactionSearch(query);
@@ -104,6 +111,13 @@ export function Transactions() {
         () => [{ value: "", label: "Todas" }, ...categories.map((category) => ({ value: category, label: category }))],
         [categories],
     );
+
+    const handleFitRows = useCallback((rows: number) => {
+        if (fitSizeRef.current === rows) return;
+        fitSizeRef.current = rows;
+        setFitSize(rows);
+        setPage(0);
+    }, []);
 
     function changeFilters(patch: Partial<TransactionFilters>) {
         setFilters((current) => ({ ...current, ...patch }));
@@ -176,6 +190,7 @@ export function Transactions() {
                 <StatTile label="Saldo do filtro" value={format(income - expense)} hero />
             </TotalsRow>
 
+            <Fill>
             <ResultsCell>
                 <Frame title="Resultados">
                     {error && <ErrorText>{error}</ErrorText>}
@@ -187,6 +202,8 @@ export function Transactions() {
                             loading={loading && data === null}
                             sort={sort}
                             onSortChange={changeSort}
+                            fitRows
+                            onFitRows={handleFitRows}
                             noDataMessage="Nenhuma transação encontrada com esses filtros."
                         />
                     </TableArea>
@@ -196,6 +213,7 @@ export function Transactions() {
                     {data && data.transactions.totalPages === 0 && <Muted>Ajuste os filtros ou o período para ver resultados.</Muted>}
                 </Frame>
             </ResultsCell>
+            </Fill>
         </>
     );
 }

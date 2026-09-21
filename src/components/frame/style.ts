@@ -1,13 +1,14 @@
 import styled from "styled-components";
+import { FIT } from "../../styles/layout";
 import { theme } from "../../styles/theme";
 
-export const Container = styled.section`
+export const Container = styled.section<{ $fit: boolean }>`
     position: relative;
     display: flex;
     flex-direction: column;
     gap: 14px;
     width: 100%;
-    height: 100%;
+    height: ${(props) => (props.$fit ? "auto" : "100%")};
     min-height: 0;
     padding: 18px;
     background: linear-gradient(180deg, rgba(15,24,44,0.78) 0%, ${theme.colors.panel} 100%);
@@ -19,6 +20,11 @@ export const Container = styled.section`
         0 24px 48px rgba(0,0,0,0.4),
         ${theme.glow.soft};
     overflow: hidden;
+
+    ${FIT} {
+        gap: 8px;
+        padding: 12px 14px;
+    }
 
     &::before,
     &::after {
@@ -87,4 +93,6 @@ export const Body = styled.div`
     display: flex;
     flex-direction: column;
     gap: 12px;
+    overflow-x: hidden;
+    overflow-y: auto;
 `;

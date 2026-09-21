@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FIT } from "../../styles/layout";
 import { theme } from "../../styles/theme";
 
 export const Header = styled.div`
@@ -16,7 +17,11 @@ export const Heading = styled.div`
 
     h1 {
         font-family: ${theme.fonts.display};
-        font-size: clamp(24px, 2.6vw, 32px);
+        font-size: clamp(22px, 2.6vw, 32px);
+
+        ${FIT} {
+            font-size: clamp(20px, 3.4vh, 30px);
+        }
         font-weight: 700;
         letter-spacing: -0.02em;
         color: ${theme.colors.text};

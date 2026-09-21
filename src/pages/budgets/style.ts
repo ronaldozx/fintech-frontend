@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FIT } from "../../styles/layout";
 import { theme } from "../../styles/theme";
 
 export const Actions = styled.div`
@@ -26,6 +27,16 @@ export const Cards = styled.div<{ $stale: boolean }>`
     gap: 20px;
     opacity: ${(props) => (props.$stale ? 0.55 : 1)};
     transition: opacity 150ms ease;
+
+    ${FIT} {
+        flex: 0 1 auto;
+        min-height: 0;
+        align-content: start;
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+        gap: 12px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
 `;
 
 export const Card = styled.div`
@@ -36,6 +47,11 @@ export const Card = styled.div`
     background: rgba(255,255,255,0.02);
     border: 1px solid ${theme.colors.hairline};
     border-radius: ${theme.radius.medium};
+
+    ${FIT} {
+        gap: 6px;
+        padding: 10px 12px;
+    }
 `;
 
 export const CardHead = styled.div`
@@ -60,6 +76,10 @@ export const CardTitle = styled.div`
     span {
         color: ${theme.colors.textMuted};
         font-size: 12px;
+
+        ${FIT} {
+            display: none;
+        }
     }
 `;
 
@@ -104,9 +124,9 @@ export const Remaining = styled.div<{ $exceeded: boolean }>`
 `;
 
 export const UnbudgetedList = styled.ul`
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    gap: 10px;
     list-style: none;
 `;
 
@@ -115,24 +135,37 @@ export const UnbudgetedItem = styled.li`
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 10px 12px;
+    min-width: 0;
+    padding: 10px 10px 10px 14px;
     background: rgba(255,255,255,0.02);
     border: 1px solid ${theme.colors.hairline};
     border-radius: ${theme.radius.small};
-    color: ${theme.colors.text};
-    font-size: 14px;
 
-    span {
-        color: ${theme.colors.textMuted};
-        font-family: ${theme.fonts.mono};
-        font-size: 13px;
+    ${FIT} {
+        padding: 8px 8px 8px 14px;
     }
 `;
 
 export const UnbudgetedInfo = styled.div`
     display: flex;
-    align-items: center;
-    gap: 14px;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+
+    strong {
+        overflow: hidden;
+        color: ${theme.colors.text};
+        font-size: 14px;
+        font-weight: 600;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    span {
+        color: ${theme.colors.textMuted};
+        font-family: ${theme.fonts.mono};
+        font-size: 12px;
+    }
 `;
 
 export const Message = styled.div`

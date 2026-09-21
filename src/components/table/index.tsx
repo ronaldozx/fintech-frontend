@@ -1,7 +1,13 @@
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { useElementSize } from "../../hooks/useElementSize";
+import { useFitViewport } from "../../hooks/useFitViewport";
 import { theme } from "../../styles/theme";
 import {
+	TABLE_BORDER,
+	TABLE_HEADER_HEIGHT,
+	TABLE_PAGER_HEIGHT,
+	TABLE_ROW_HEIGHT,
 	TableWrapper,
 	StyledTable,
 	Thead,
@@ -36,6 +42,9 @@ type TableProps<T> = {
 	loading?: boolean;
 	noDataMessage?: string;
 	pageSize?: number;
+	fitRows?: boolean;
+	pager?: boolean;
+	onFitRows?: (rows: number) => void;
 	onRowClick?: (row: T) => void;
 	sort?: TableSort;
 	onSortChange?: (sort: TableSort) => void;
@@ -55,13 +64,21 @@ export function Table<T extends Record<string, unknown>>(props: TableProps<T>): 
 		className,
 		loading,
 		noDataMessage = "Nenhum dado disponível",
-		pageSize = 10,
+		pageSize: defaultPageSize = 10,
+		fitRows = false,
+		pager = true,
+		onFitRows,
 		onRowClick,
 		sort,
 		onSortChange,
 	} = props;
 
 	const manual = onSortChange !== undefined;
+	const fitViewport = useFitViewport();
+	const { ref: wrapperRef, height: wrapperHeight } = useElementSize<HTMLDivElement>();
+	const measured = fitRows && fitViewport && wrapperHeight > 0;
+	const rowsWithoutPager = Math.max(1, Math.floor((wrapperHeight - TABLE_BORDER - TABLE_HEADER_HEIGHT) / TABLE_ROW_HEIGHT));
+	const rowsWithPager = Math.max(1, Math.floor((wrapperHeight - TABLE_BORDER - TABLE_HEADER_HEIGHT - TABLE_PAGER_HEIGHT) / TABLE_ROW_HEIGHT));
 	const [localSortBy, setSortBy] = useState<string | null>(null);
 	const [localSortDir, setSortDir] = useState<"asc" | "desc">("asc");
 	const [page, setPage] = useState(1);
@@ -89,12 +106,19 @@ export function Table<T extends Record<string, unknown>>(props: TableProps<T>): 
 		return list;
 	}, [data, sortBy, sortDir, manual]);
 
+	const showPager = pager || !measured;
+	const pageSize = !measured ? defaultPageSize : processed.length > rowsWithoutPager && pager ? rowsWithPager : rowsWithoutPager;
 	const totalPages = Math.max(1, Math.ceil(processed.length / pageSize));
+	const currentPage = Math.min(page, totalPages);
 	const pageData = useMemo(() => {
 		if (manual) return processed;
-		const start = (page - 1) * pageSize;
+		const start = (currentPage - 1) * pageSize;
 		return processed.slice(start, start + pageSize);
-	}, [processed, page, pageSize, manual]);
+	}, [processed, currentPage, pageSize, manual]);
+
+	useEffect(() => {
+		if (measured && manual) onFitRows?.(rowsWithoutPager);
+	}, [measured, manual, rowsWithoutPager, onFitRows]);
 
 	function handleSort(col: Column<T>) {
 		if (!col.sortable) return;
@@ -112,7 +136,7 @@ export function Table<T extends Record<string, unknown>>(props: TableProps<T>): 
 	}
 
 	return (
-		<TableWrapper className={className}>
+		<TableWrapper ref={wrapperRef} className={className}>
 			<StyledTable role="table">
 				<Thead>
 					<Tr>
@@ -156,21 +180,21 @@ export function Table<T extends Record<string, unknown>>(props: TableProps<T>): 
 				</Tbody>
 			</StyledTable>
 
-			{!manual && processed.length > pageSize && (
+			{!manual && showPager && processed.length > pageSize && (
 				<PaginationContainer>
-					<PageButton onClick={() => setPage(1)} disabled={page === 1}>
+					<PageButton onClick={() => setPage(1)} disabled={currentPage === 1}>
 						«
 					</PageButton>
-					<PageButton onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page === 1}>
+					<PageButton onClick={() => setPage(Math.max(1, currentPage - 1))} disabled={currentPage === 1}>
 						‹
 					</PageButton>
 					<div style={{ padding: "0 8px", color: theme.colors.textMuted }}>
-						Página {page} / {totalPages}
+						Página {currentPage} / {totalPages}
 					</div>
-					<PageButton onClick={() => setPage((p) => Math.min(totalPages, p + 1))} disabled={page === totalPages}>
+					<PageButton onClick={() => setPage(Math.min(totalPages, currentPage + 1))} disabled={currentPage === totalPages}>
 						›
 					</PageButton>
-					<PageButton onClick={() => setPage(totalPages)} disabled={page === totalPages}>
+					<PageButton onClick={() => setPage(totalPages)} disabled={currentPage === totalPages}>
 						»
 					</PageButton>
 				</PaginationContainer>

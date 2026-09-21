@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FIT } from "../../../../styles/layout";
 import { theme } from "../../../../styles/theme";
 
 export const Frame = styled.div`
@@ -6,6 +7,10 @@ export const Frame = styled.div`
     flex: 1;
     min-height: 240px;
     width: 100%;
+
+    ${FIT} {
+        min-height: 0;
+    }
 `;
 
 export const Svg = styled.svg`

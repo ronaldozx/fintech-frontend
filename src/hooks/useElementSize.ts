@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 type Size = {
     width: number;
@@ -6,11 +6,10 @@ type Size = {
 };
 
 export function useElementSize<T extends HTMLElement>() {
-    const ref = useRef<T | null>(null);
+    const [element, setElement] = useState<T | null>(null);
     const [size, setSize] = useState<Size>({ width: 0, height: 0 });
 
     useEffect(() => {
-        const element = ref.current;
         if (!element) return;
 
         const observer = new ResizeObserver(([entry]) => {
@@ -19,7 +18,7 @@ export function useElementSize<T extends HTMLElement>() {
         observer.observe(element);
 
         return () => observer.disconnect();
-    }, []);
+    }, [element]);
 
-    return { ref, width: size.width, height: size.height };
+    return { ref: setElement, width: size.width, height: size.height };
 }
