@@ -50,7 +50,8 @@ export function BankConnectionsModal({ isOpen, onClose, onChanged }: BankConnect
     function handleSync() {
         run(async () => {
             const result = await syncTransactions();
-            return `${result.imported} nova(s) transação(ões) importada(s)`;
+            const pairs = result.transferPairs > 0 ? `; ${result.transferPairs} transferência(s) entre suas contas tirada(s) dos totais` : "";
+            return `${result.imported} nova(s) transação(ões) importada(s)${pairs}`;
         });
     }
 

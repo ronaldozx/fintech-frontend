@@ -46,6 +46,26 @@ export type TransactionRow = {
     paymentMethod: PaymentMethod;
     category: string | null;
     neutral: boolean;
+    neutralReason: string | null;
+    manual: boolean;
+    userEdited: boolean;
+};
+
+export type TransactionInput = {
+    description: string;
+    amount: number;
+    type: TransactionType;
+    date: string;
+    category: string | null;
+};
+
+export type TransactionPatch = {
+    category?: string;
+    neutral?: boolean;
+    description?: string;
+    amount?: number;
+    type?: TransactionType;
+    date?: string;
 };
 
 export type TransactionSearch = {
