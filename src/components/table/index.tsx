@@ -100,7 +100,7 @@ export function Table<T extends Record<string, unknown>>(props: TableProps<T>): 
 					<Tr>
 						{columns.map((col) => (
 							<Th key={col.key} style={{ width: col.width }} align={col.align} onClick={() => handleSort(col)} sortable={!!col.sortable}>
-								<div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+								<div style={{ display: "flex", alignItems: "center", gap: 8, justifyContent: col.align === "right" ? "flex-end" : col.align === "center" ? "center" : "flex-start" }}>
 									<span>{col.title}</span>
 									{col.sortable && sortBy === col.key ? <small>{sortDir === "asc" ? "↑" : "↓"}</small> : null}
 								</div>

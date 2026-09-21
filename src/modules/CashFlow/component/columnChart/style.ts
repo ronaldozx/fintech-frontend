@@ -1,9 +1,10 @@
 import styled from "styled-components";
+import { theme } from "../../../../styles/theme";
 
 export const Frame = styled.div`
     position: relative;
     flex: 1;
-    min-height: 120px;
+    min-height: 200px;
     width: 100%;
 `;
 
@@ -11,7 +12,7 @@ export const Legend = styled.div`
     display: flex;
     align-items: center;
     gap: 16px;
-    color: #94A3B8;
+    color: ${theme.colors.textMuted};
     font-size: 12px;
 `;
 
@@ -37,13 +38,13 @@ export const HitArea = styled.rect`
     }
 
     &:focus-visible {
-        stroke: rgba(79,209,197,0.6);
+        stroke: ${theme.colors.accent};
         stroke-width: 1;
     }
 `;
 
 export const BarGroup = styled.g<{ $active: boolean }>`
-    filter: ${(props) => (props.$active ? "brightness(1.2)" : "none")};
+    filter: ${(props) => (props.$active ? "brightness(1.25) drop-shadow(0 0 6px rgba(34,211,238,0.35))" : "none")};
     transition: filter 120ms ease;
 `;
 
@@ -54,7 +55,7 @@ export const Tooltip = styled.div`
     min-width: 132px;
     padding: 8px 10px;
     background: rgba(5,8,16,0.96);
-    border: 1px solid rgba(79,209,197,0.16);
+    border: 1px solid ${theme.colors.borderStrong};
     border-radius: 8px;
     box-shadow: 0 8px 24px rgba(2,6,10,0.6);
     pointer-events: none;
@@ -62,7 +63,7 @@ export const Tooltip = styled.div`
 `;
 
 export const TooltipTitle = styled.div`
-    color: #94A3B8;
+    color: ${theme.colors.textMuted};
     font-size: 12px;
     margin-bottom: 4px;
 `;
@@ -73,7 +74,7 @@ export const TooltipRow = styled.div`
     justify-content: space-between;
     gap: 12px;
     font-size: 12px;
-    color: #94A3B8;
+    color: ${theme.colors.textMuted};
 `;
 
 export const TooltipKey = styled.span<{ $color: string }>`
@@ -86,6 +87,6 @@ export const TooltipKey = styled.span<{ $color: string }>`
 `;
 
 export const TooltipValue = styled.span`
-    color: #F0F4F8;
+    color: ${theme.colors.text};
     font-weight: 600;
 `;

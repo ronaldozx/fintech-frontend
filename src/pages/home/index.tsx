@@ -5,13 +5,15 @@ import { Sidebar } from "../../components/sidebar";
 import { ConnectBank } from "../../components/connectBank";
 import { BankConnectionsModal } from "../../components/bankConnections";
 import { PeriodFilter } from "../../components/periodFilter";
-import { CashFlowCell, CategoryCell, Content, ContentModules, Header, TransactionsCell } from "./style";
+import { SummaryStats } from "../../components/summaryStats";
+import { ChartCell, ChartsRow, Content, Heading, PageHeader, Toolbar, TransactionsCell } from "./style";
 import { faBuildingColumns } from "@fortawesome/free-solid-svg-icons";
 import { useMemo, useState } from "react";
 import { CashFlow } from "../../modules/CashFlow/component/grid";
 import { CategoryBreakdown } from "../../modules/CategoryBreakdown/component/grid";
 import { TransactionIntelligence } from "../../modules/TransactionIntelligence/component/grid/index";
 import { useSummary } from "../../hooks/useSummary";
+import { formatDate } from "../../utils/format";
 import { DEFAULT_PERIOD, getPeriodRange, type PeriodId } from "../../utils/period";
 
 
@@ -32,24 +34,34 @@ export function Home() {
             <NavBar/>
             <Sidebar/>
             <Content>
-                <Header>
-                    <ConnectBank onConnected={reload} />
-                    <DefaultButtonStyle onClick={() => setBanksOpen(true)} title="Bancos conectados">
-                        <FontAwesomeIcon icon={faBuildingColumns}></FontAwesomeIcon>
-                    </DefaultButtonStyle>
-                    <PeriodFilter value={period} onChange={setPeriod} />
-                </Header>
-                <ContentModules>
-                    <CashFlowCell>
+                <PageHeader>
+                    <Heading>
+                        <h1>Visão geral</h1>
+                        <p>{formatDate(range.startDate)} → {formatDate(range.endDate)}</p>
+                    </Heading>
+                    <Toolbar>
+                        <ConnectBank onConnected={reload} />
+                        <DefaultButtonStyle onClick={() => setBanksOpen(true)} title="Bancos conectados">
+                            <FontAwesomeIcon icon={faBuildingColumns}></FontAwesomeIcon> Bancos
+                        </DefaultButtonStyle>
+                        <PeriodFilter value={period} onChange={setPeriod} />
+                    </Toolbar>
+                </PageHeader>
+
+                <SummaryStats summary={data} loading={loading} />
+
+                <ChartsRow>
+                    <ChartCell>
                         <CashFlow range={range} summary={data} loading={loading} error={error} />
-                    </CashFlowCell>
-                    <CategoryCell>
+                    </ChartCell>
+                    <ChartCell>
                         <CategoryBreakdown summary={data?.categories ?? null} loading={loading} error={error} />
-                    </CategoryCell>
-                    <TransactionsCell>
-                        <TransactionIntelligence range={range} reloadKey={reloadKey} />
-                    </TransactionsCell>
-                </ContentModules>
+                    </ChartCell>
+                </ChartsRow>
+
+                <TransactionsCell>
+                    <TransactionIntelligence range={range} reloadKey={reloadKey} />
+                </TransactionsCell>
 
                 <BankConnectionsModal
                     isOpen={banksOpen}

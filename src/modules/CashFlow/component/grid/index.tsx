@@ -8,7 +8,7 @@ import { formatMoney } from "../../../../utils/format";
 import { isSingleMonth } from "../../../../utils/period";
 import type { DateRange, SummaryData } from "../../../../types/Transaction";
 import { ColumnChart } from "../columnChart";
-import { Kpi, KpiLabel, Kpis, KpiValue, TableArea } from "./style";
+import { TableArea } from "./style";
 
 type CashFlowProps = {
   range: DateRange;
@@ -57,21 +57,6 @@ export function CashFlow({ range, summary, loading, error }: CashFlowProps) {
 
       {summary && !isEmpty && (
         <ChartBody $stale={loading}>
-          <Kpis>
-            <Kpi>
-              <KpiLabel>Receitas</KpiLabel>
-              <KpiValue>{formatMoney(totalIncome)}</KpiValue>
-            </Kpi>
-            <Kpi>
-              <KpiLabel>Despesas</KpiLabel>
-              <KpiValue>{formatMoney(totalExpense)}</KpiValue>
-            </Kpi>
-            <Kpi>
-              <KpiLabel>Saldo</KpiLabel>
-              <KpiValue>{formatMoney(totalIncome - totalExpense)}</KpiValue>
-            </Kpi>
-          </Kpis>
-
           {view === "chart" ? (
             <ColumnChart points={points} ariaLabel={daily ? "Receitas e despesas por dia" : "Receitas e despesas por mês"} />
           ) : (

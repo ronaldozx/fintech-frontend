@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { theme } from "./theme";
 
 export const chartColors = {
     income: "#3987e5",
@@ -6,17 +7,17 @@ export const chartColors = {
     category: "#3987e5",
     grid: "rgba(255,255,255,0.06)",
     axis: "rgba(255,255,255,0.16)",
-    textPrimary: "#F0F4F8",
-    textSecondary: "#94A3B8",
+    textPrimary: "${theme.colors.text}",
+    textSecondary: "${theme.colors.textMuted}",
 };
 
 export const ChartMessage = styled.div`
-    color: #94A3B8;
+    color: ${theme.colors.textMuted};
     font-size: 13px;
 `;
 
 export const ChartError = styled.div`
-    color: #F87171;
+    color: ${theme.colors.danger};
     font-size: 13px;
 `;
 
