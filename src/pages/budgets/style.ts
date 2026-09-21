@@ -124,16 +124,10 @@ export const Remaining = styled.div<{ $exceeded: boolean }>`
 `;
 
 export const UnbudgetedList = styled.ul`
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    gap: 10px;
     list-style: none;
-
-    ${FIT} {
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
 `;
 
 export const UnbudgetedItem = styled.li`
@@ -141,35 +135,37 @@ export const UnbudgetedItem = styled.li`
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 10px 12px;
+    min-width: 0;
+    padding: 10px 10px 10px 14px;
     background: rgba(255,255,255,0.02);
     border: 1px solid ${theme.colors.hairline};
     border-radius: ${theme.radius.small};
-    color: ${theme.colors.text};
-    font-size: 14px;
 
     ${FIT} {
-        padding: 6px 8px 6px 12px;
-        gap: 12px;
-    }
-
-    span {
-        color: ${theme.colors.textMuted};
-        font-family: ${theme.fonts.mono};
-        font-size: 13px;
-    }
-
-    button {
-        ${FIT} {
-            height: 30px;
-        }
+        padding: 8px 8px 8px 14px;
     }
 `;
 
 export const UnbudgetedInfo = styled.div`
     display: flex;
-    align-items: center;
-    gap: 14px;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+
+    strong {
+        overflow: hidden;
+        color: ${theme.colors.text};
+        font-size: 14px;
+        font-weight: 600;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    span {
+        color: ${theme.colors.textMuted};
+        font-family: ${theme.fonts.mono};
+        font-size: 12px;
+    }
 `;
 
 export const Message = styled.div`

@@ -127,14 +127,18 @@ export function Budgets() {
                 <Frame title="Gastos sem orçamento" fit>
                     <UnbudgetedList>
                         {data.unbudgeted.map((item) => (
-                            <UnbudgetedItem key={item.category}>
-                                {item.category}
+                            <UnbudgetedItem key={item.category} title={item.category}>
                                 <UnbudgetedInfo>
+                                    <strong>{item.category}</strong>
                                     <span>{formatMoney(item.spent)}</span>
-                                    <DefaultButtonStyle onClick={() => setTarget({ mode: "create", category: item.category })}>
-                                        <FontAwesomeIcon icon={faPlus} /> Definir limite
-                                    </DefaultButtonStyle>
                                 </UnbudgetedInfo>
+                                <IconButton
+                                    onClick={() => setTarget({ mode: "create", category: item.category })}
+                                    aria-label={`Definir limite para ${item.category}`}
+                                    title="Definir limite"
+                                >
+                                    <FontAwesomeIcon icon={faPlus} />
+                                </IconButton>
                             </UnbudgetedItem>
                         ))}
                     </UnbudgetedList>
