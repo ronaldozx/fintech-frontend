@@ -1,46 +1,80 @@
 import styled from "styled-components";
+import { theme } from "../../styles/theme";
 
-export const Content = styled.div`
-    margin-left: 64px;
+export const Content = styled.main`
+    margin-left: 72px;
     margin-top: 64px;
-    padding: 24px;
-    height: calc(100vh - 80px);
-    box-sizing: border-box;
+    height: calc(100vh - 64px);
+    padding: 28px 32px 40px;
     display: flex;
     flex-direction: column;
     gap: 24px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    & > * {
+        flex-shrink: 0;
+    }
+
+    @media (max-width: 720px) {
+        margin-left: 0;
+        padding: 20px 16px 32px;
+    }
 `;
 
-export const Header = styled.div`
+export const PageHeader = styled.div`
     display: flex;
-    justify-content: flex-end;
-    padding: 8px;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
     gap: 16px;
-    background: rgba(255,255,255,0.02);
-    border-radius: 12px;
-    box-shadow: 0 0 8px rgba(79,209,197,0.05);
 `;
 
-export const ContentModules = styled.div`
-    flex: 1;
-    min-height: 0;
+export const Heading = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    h1 {
+        font-family: ${theme.fonts.display};
+        font-size: clamp(24px, 2.6vw, 32px);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: ${theme.colors.text};
+    }
+
+    p {
+        font-family: ${theme.fonts.mono};
+        font-size: 12px;
+        color: ${theme.colors.textMuted};
+        letter-spacing: 0.04em;
+    }
+`;
+
+export const Toolbar = styled.div`
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+`;
+
+export const ChartsRow = styled.div`
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-template-rows: minmax(0, 1.4fr) minmax(0, 1fr);
-    gap: 24px;
-    padding: 8px;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: 20px;
+    min-height: 380px;
+
+    @media (max-width: 1100px) {
+        grid-template-columns: 1fr;
+    }
 `;
 
-export const CashFlowCell = styled.div`
-    grid-column: span 2;
-    min-height: 0;
-`;
-
-export const CategoryCell = styled.div`
-    min-height: 0;
+export const ChartCell = styled.div`
+    min-height: 360px;
+    min-width: 0;
 `;
 
 export const TransactionsCell = styled.div`
-    grid-column: 1 / -1;
+    height: 460px;
     min-height: 0;
 `;

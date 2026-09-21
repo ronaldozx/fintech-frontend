@@ -34,8 +34,8 @@ const handleRegister = async() => {
 return (
     <Card>
       <Header>
-        <h2>Bem-vindo de volta</h2>
-        <p>Entre na sua conta para continuar</p>
+        <h2>Criar conta</h2>
+        <p>Preencha seus dados para começar</p>
       </Header>
 
       <CustomInput label="Email" type="email" placeholder="seu@exemplo.com" onChange={(e) => setEmail(e.target.value)} />

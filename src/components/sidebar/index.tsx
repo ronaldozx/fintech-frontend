@@ -9,20 +9,20 @@ export function Sidebar() {
     return (
         <Container>
             <NavGroup>
-                <NavButton $active={active === "home"} onClick={() => setActive("home")}>
+                <NavButton title="Visão geral" aria-label="Visão geral" $active={active === "home"} onClick={() => setActive("home")}>
                     <FontAwesomeIcon icon={faHome} />
                 </NavButton>
-                <NavButton $active={active === "card"} onClick={() => setActive("card")}>
+                <NavButton title="Transações" aria-label="Transações" $active={active === "card"} onClick={() => setActive("card")}>
                     <FontAwesomeIcon icon={faCashRegister} />
                 </NavButton>
                 <Divider />
-                <NavButton $active={active === "robot"} onClick={() => setActive("robot")}>
+                <NavButton title="Assistente" aria-label="Assistente" $active={active === "robot"} onClick={() => setActive("robot")}>
                     <FontAwesomeIcon icon={faRobot} />
                 </NavButton>
             </NavGroup>
 
             <NavGroup>
-                <NavButton $active={active === "gear"} onClick={() => setActive("gear")}>
+                <NavButton title="Configurações" aria-label="Configurações" $active={active === "gear"} onClick={() => setActive("gear")}>
                     <FontAwesomeIcon icon={faGear} />
                 </NavButton>
             </NavGroup>
