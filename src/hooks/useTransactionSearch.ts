@@ -39,7 +39,7 @@ export function useTransactionSearch(query: TransactionQuery, reloadKey = 0) {
     };
 }
 
-export function useTransactionCategories() {
+export function useTransactionCategories(reloadKey = 0) {
     const [categories, setCategories] = useState<string[]>([]);
 
     useEffect(() => {
@@ -56,7 +56,7 @@ export function useTransactionCategories() {
         return () => {
             active = false;
         };
-    }, []);
+    }, [reloadKey]);
 
     return categories;
 }
