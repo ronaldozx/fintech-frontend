@@ -12,15 +12,15 @@ import { CashFlow } from "../../modules/CashFlow/component/grid";
 import { CategoryBreakdown } from "../../modules/CategoryBreakdown/component/grid";
 import { TransactionIntelligence } from "../../modules/TransactionIntelligence/component/grid/index";
 import { useSummary } from "../../hooks/useSummary";
-import { DEFAULT_PERIOD, getPeriodRange, type PeriodMonths } from "../../utils/period";
+import { DEFAULT_PERIOD, getPeriodRange, type PeriodId } from "../../utils/period";
 
 
 export function Home() {
     const [banksOpen, setBanksOpen] = useState(false);
     const [reloadKey, setReloadKey] = useState(0);
-    const [months, setMonths] = useState<PeriodMonths>(DEFAULT_PERIOD);
+    const [period, setPeriod] = useState<PeriodId>(DEFAULT_PERIOD);
 
-    const range = useMemo(() => getPeriodRange(months), [months]);
+    const range = useMemo(() => getPeriodRange(period), [period]);
     const { data, loading, error } = useSummary(range, reloadKey);
 
     function reload() {
@@ -37,11 +37,11 @@ export function Home() {
                     <DefaultButtonStyle onClick={() => setBanksOpen(true)} title="Bancos conectados">
                         <FontAwesomeIcon icon={faBuildingColumns}></FontAwesomeIcon>
                     </DefaultButtonStyle>
-                    <PeriodFilter value={months} onChange={setMonths} />
+                    <PeriodFilter value={period} onChange={setPeriod} />
                 </Header>
                 <ContentModules>
                     <CashFlowCell>
-                        <CashFlow range={range} summary={data?.monthly ?? null} loading={loading} error={error} />
+                        <CashFlow range={range} summary={data} loading={loading} error={error} />
                     </CashFlowCell>
                     <CategoryCell>
                         <CategoryBreakdown summary={data?.categories ?? null} loading={loading} error={error} />

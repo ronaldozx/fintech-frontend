@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useElementSize } from "../../../../hooks/useElementSize";
 import { chartColors } from "../../../../styles/chart";
-import { columnPath, formatCompact, formatMonthYear, niceScale, type MonthPoint } from "../../../../utils/chart";
+import { columnPath, formatCompact, niceScale, type ChartPoint } from "../../../../utils/chart";
 import { formatMoney } from "../../../../utils/format";
 import {
     BarGroup,
@@ -18,7 +18,8 @@ import {
 } from "./style";
 
 type ColumnChartProps = {
-    points: MonthPoint[];
+    points: ChartPoint[];
+    ariaLabel: string;
 };
 
 const MARGIN = { top: 16, right: 8, bottom: 22, left: 44 };
@@ -28,7 +29,7 @@ const BAR_RADIUS = 4;
 const MIN_LABEL_SLOT = 26;
 const TOOLTIP_HALF_WIDTH = 70;
 
-export function ColumnChart({ points }: ColumnChartProps) {
+export function ColumnChart({ points, ariaLabel }: ColumnChartProps) {
     const { ref, width, height } = useElementSize<HTMLDivElement>();
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
@@ -53,7 +54,7 @@ export function ColumnChart({ points }: ColumnChartProps) {
     );
 
     const active = activeIndex === null ? null : points[activeIndex];
-    const showEveryLabel = slot >= MIN_LABEL_SLOT;
+    const labelStride = slot === 0 ? 1 : Math.max(1, Math.ceil(MIN_LABEL_SLOT / slot));
 
     return (
         <>
@@ -68,7 +69,7 @@ export function ColumnChart({ points }: ColumnChartProps) {
 
             <Frame ref={ref}>
                 {width > 0 && height > 0 && (
-                    <svg width={width} height={height} role="img" aria-label="Receitas e despesas por mês">
+                    <svg width={width} height={height} role="img" aria-label={ariaLabel}>
                         {scale.ticks.map((tick) => (
                             <g key={tick}>
                                 <line
@@ -91,7 +92,7 @@ export function ColumnChart({ points }: ColumnChartProps) {
                             const expenseHeight = heightOf(point.expense);
 
                             return (
-                                <g key={point.month}>
+                                <g key={point.key}>
                                     <BarGroup $active={activeIndex === index}>
                                         {point.income > 0 && (
                                             <path
@@ -107,7 +108,7 @@ export function ColumnChart({ points }: ColumnChartProps) {
                                         )}
                                     </BarGroup>
 
-                                    {(showEveryLabel || index % 2 === 0) && (
+                                    {index % labelStride === 0 && (
                                         <text x={center} y={height - 6} textAnchor="middle" fontSize={10} fill={chartColors.textSecondary}>
                                             {point.label}
                                         </text>
@@ -120,7 +121,7 @@ export function ColumnChart({ points }: ColumnChartProps) {
                                         height={plotHeight + MARGIN.bottom}
                                         tabIndex={0}
                                         role="img"
-                                        aria-label={`${formatMonthYear(point.month)}: receitas ${formatMoney(point.income)}, despesas ${formatMoney(point.expense)}`}
+                                        aria-label={`${point.title}: receitas ${formatMoney(point.income)}, despesas ${formatMoney(point.expense)}`}
                                         onPointerEnter={() => setActiveIndex(index)}
                                         onPointerMove={() => setActiveIndex(index)}
                                         onPointerLeave={() => setActiveIndex(null)}
@@ -148,7 +149,7 @@ export function ColumnChart({ points }: ColumnChartProps) {
 
                 {active && (
                     <Tooltip style={{ left: Math.min(Math.max(centerOf(activeIndex ?? 0), TOOLTIP_HALF_WIDTH), Math.max(TOOLTIP_HALF_WIDTH, width - TOOLTIP_HALF_WIDTH)) }}>
-                        <TooltipTitle>{formatMonthYear(active.month)}</TooltipTitle>
+                        <TooltipTitle>{active.title}</TooltipTitle>
                         <TooltipRow>
                             <span>
                                 <TooltipKey $color={chartColors.income} />

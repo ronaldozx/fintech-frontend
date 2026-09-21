@@ -3,7 +3,7 @@ import { Frame } from "../../../../components/frame";
 import { formatDate } from "../../../../utils/format";
 import { useDashboard } from "../../../../hooks/useDashboard";
 import type { DateRange, Transaction } from "../../../../types/Transaction";
-import { TableArea } from "./style";
+import { NeutralTag, TableArea } from "./style";
 
 const PAGE_SIZE = 200;
 
@@ -22,7 +22,14 @@ export function TransactionIntelligence({ range, reloadKey }: TransactionIntelli
   const columns: Column<Transaction>[] = [
     { key: 'date', title: 'Data', width: 120, sortable: true, render: (value) => formatDate(value.date) },
     { key: 'description', title: 'Descrição', sortable: true, render: (value) => formatDescription(value.description) },
-    { key: 'category', title: 'Categoria', sortable: true, render: (value) => value.category ?? 'Outros' },
+    { key: 'category', title: 'Categoria', sortable: true,
+      render: (value) => (
+        <>
+          {value.category ?? 'Outros'}
+          {value.neutral && <NeutralTag title="Pagamento de fatura ou transferência entre as suas contas: não entra em receitas nem despesas">fora dos totais</NeutralTag>}
+        </>
+      )
+    },
     { key: 'amount', title: 'Valor', align: 'right', sortable: true,
       render: (row) => {
         const formatted = Math.abs(row.amount).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });

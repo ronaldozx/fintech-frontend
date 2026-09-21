@@ -1,8 +1,10 @@
-import type { CategorySummary, DateRange, MonthlySummary } from "../types/Transaction";
+import type { CategorySummary, DailySummary, DateRange, MonthlySummary } from "../types/Transaction";
+import { formatDate } from "./format";
 
-export type MonthPoint = {
-    month: string;
+export type ChartPoint = {
+    key: string;
     label: string;
+    title: string;
     income: number;
     expense: number;
 };
@@ -27,11 +29,11 @@ export const formatMonthYear = (month: string) => {
     return `${MONTH_LABELS[monthNumber - 1]}/${year}`;
 };
 
-export const buildMonthSeries = (range: DateRange, summary: MonthlySummary[]): MonthPoint[] => {
+export const buildMonthSeries = (range: DateRange, summary: MonthlySummary[]): ChartPoint[] => {
     const byMonth = new Map(summary.map((item) => [item.month, item]));
     const [startYear, startMonth] = range.startDate.split("-").map(Number);
     const [endYear, endMonth] = range.endDate.split("-").map(Number);
-    const points: MonthPoint[] = [];
+    const points: ChartPoint[] = [];
 
     let year = startYear;
     let month = startMonth;
@@ -40,8 +42,9 @@ export const buildMonthSeries = (range: DateRange, summary: MonthlySummary[]): M
         const key = `${year}-${String(month).padStart(2, "0")}`;
         const found = byMonth.get(key);
         points.push({
-            month: key,
+            key,
             label: MONTH_LABELS[month - 1],
+            title: formatMonthYear(key),
             income: found?.income ?? 0,
             expense: found?.expense ?? 0,
         });
@@ -50,6 +53,27 @@ export const buildMonthSeries = (range: DateRange, summary: MonthlySummary[]): M
             month = 1;
             year += 1;
         }
+    }
+
+    return points;
+};
+
+export const buildDaySeries = (range: DateRange, summary: DailySummary[]): ChartPoint[] => {
+    const byDate = new Map(summary.map((item) => [item.date, item]));
+    const [year, month, firstDay] = range.startDate.split("-").map(Number);
+    const lastDay = Number(range.endDate.split("-")[2]);
+    const points: ChartPoint[] = [];
+
+    for (let day = firstDay; day <= lastDay; day += 1) {
+        const key = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+        const found = byDate.get(key);
+        points.push({
+            key,
+            label: String(day),
+            title: formatDate(key),
+            income: found?.income ?? 0,
+            expense: found?.expense ?? 0,
+        });
     }
 
     return points;

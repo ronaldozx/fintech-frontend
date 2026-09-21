@@ -9,6 +9,7 @@ export type Transaction = {
     type: TransactionType;
     paymentMethod: PaymentMethod;
     category: string | null;
+    neutral: boolean | null;
 };
 
 export type Page<T> = {
@@ -42,6 +43,12 @@ export type MonthlySummary = {
     expense: number;
 };
 
+export type DailySummary = {
+    date: string;
+    income: number;
+    expense: number;
+};
+
 export type CategorySummary = {
     category: string;
     total: number;
@@ -50,5 +57,6 @@ export type CategorySummary = {
 
 export type SummaryData = {
     monthly: MonthlySummary[];
+    daily: DailySummary[];
     categories: CategorySummary[];
 };
