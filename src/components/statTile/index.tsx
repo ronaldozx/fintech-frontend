@@ -13,7 +13,7 @@ export function StatTile({ label, value, hero = false, accent, hint }: StatTileP
         <Tile $hero={hero} $accent={accent}>
             <Label>{label}</Label>
             <Value $hero={hero}>{value}</Value>
-            {hint && <Hint>{hint}</Hint>}
+            {hint && <Hint title={hint}>{hint}</Hint>}
         </Tile>
     );
 }

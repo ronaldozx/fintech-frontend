@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DefaultButtonStyle } from "../../components/button/style";
 import { ConnectBank } from "../../components/connectBank";
 import { BankConnectionsModal } from "../../components/bankConnections";
+import { Fill } from "../../components/pageFill/style";
 import { PageHeader } from "../../components/pageHeader";
 import { PeriodFilter } from "../../components/periodFilter";
 import { SummaryStats } from "../../components/summaryStats";
@@ -46,18 +47,20 @@ export function Home() {
 
             <SummaryStats summary={data} loading={loading} />
 
-            <ChartsRow>
-                <ChartCell>
-                    <CashFlow range={range} summary={data} loading={loading} error={error} />
-                </ChartCell>
-                <ChartCell>
-                    <CategoryBreakdown summary={data?.categories ?? null} loading={loading} error={error} />
-                </ChartCell>
-            </ChartsRow>
+            <Fill>
+                <ChartsRow>
+                    <ChartCell>
+                        <CashFlow range={range} summary={data} loading={loading} error={error} />
+                    </ChartCell>
+                    <ChartCell>
+                        <CategoryBreakdown summary={data?.categories ?? null} loading={loading} error={error} />
+                    </ChartCell>
+                </ChartsRow>
 
-            <TransactionsCell>
-                <TransactionIntelligence range={range} reloadKey={reloadKey} />
-            </TransactionsCell>
+                <TransactionsCell>
+                    <TransactionIntelligence range={range} reloadKey={reloadKey} />
+                </TransactionsCell>
+            </Fill>
 
             <BankConnectionsModal
                 isOpen={banksOpen}

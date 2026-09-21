@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FIT } from "../../styles/layout";
 import { theme } from "../../styles/theme";
 
 export const Actions = styled.div`
@@ -26,6 +27,16 @@ export const Cards = styled.div<{ $stale: boolean }>`
     gap: 20px;
     opacity: ${(props) => (props.$stale ? 0.55 : 1)};
     transition: opacity 150ms ease;
+
+    ${FIT} {
+        flex: 0 1 auto;
+        min-height: 0;
+        align-content: start;
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+        gap: 12px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
 `;
 
 export const Card = styled.div`
@@ -36,6 +47,11 @@ export const Card = styled.div`
     background: rgba(255,255,255,0.02);
     border: 1px solid ${theme.colors.hairline};
     border-radius: ${theme.radius.medium};
+
+    ${FIT} {
+        gap: 6px;
+        padding: 10px 12px;
+    }
 `;
 
 export const CardHead = styled.div`
@@ -60,6 +76,10 @@ export const CardTitle = styled.div`
     span {
         color: ${theme.colors.textMuted};
         font-size: 12px;
+
+        ${FIT} {
+            display: none;
+        }
     }
 `;
 
@@ -108,6 +128,12 @@ export const UnbudgetedList = styled.ul`
     flex-direction: column;
     gap: 8px;
     list-style: none;
+
+    ${FIT} {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
 `;
 
 export const UnbudgetedItem = styled.li`
@@ -122,10 +148,21 @@ export const UnbudgetedItem = styled.li`
     color: ${theme.colors.text};
     font-size: 14px;
 
+    ${FIT} {
+        padding: 6px 8px 6px 12px;
+        gap: 12px;
+    }
+
     span {
         color: ${theme.colors.textMuted};
         font-family: ${theme.fonts.mono};
         font-size: 13px;
+    }
+
+    button {
+        ${FIT} {
+            height: 30px;
+        }
     }
 `;
 

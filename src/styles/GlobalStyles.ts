@@ -43,6 +43,7 @@ export const GlobalStyle = createGlobalStyle`
   #root {
     position: relative;
     z-index: 1;
+    display: flow-root;
   }
 
   button {

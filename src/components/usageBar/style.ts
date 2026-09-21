@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FIT } from "../../styles/layout";
 import { theme } from "../../styles/theme";
 import type { UsageTone } from "../../types/Accounts";
 
@@ -12,6 +13,10 @@ export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: 6px;
+
+    ${FIT} {
+        gap: 4px;
+    }
 `;
 
 export const Head = styled.div`
@@ -34,6 +39,11 @@ export const Status = styled.span<{ $tone: UsageTone }>`
 
 export const Track = styled.div`
     height: 8px;
+
+    ${FIT} {
+        height: 6px;
+    }
+
     overflow: hidden;
     background: rgba(255,255,255,0.07);
     border-radius: 4px;
