@@ -14,6 +14,7 @@ export const theme = {
         violet: "#8B5CF6",
         positive: "#34D399",
         negative: "#FB7185",
+        warning: "#FBBF24",
         danger: "#F87171",
     },
     fonts: {

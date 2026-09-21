@@ -1,5 +1,6 @@
 import apiClient from "./apiClient";
 import type { BankConnection, ConnectToken, SyncResult } from "../types/OpenFinance";
+import type { AccountsOverview } from "../types/Accounts";
 
 export const createConnectToken = async () => {
     const response = await apiClient.post<ConnectToken>("/open-finance/connect-token");
@@ -13,6 +14,11 @@ export const registerConnection = async (itemId: string) => {
 
 export const getConnections = async () => {
     const response = await apiClient.get<BankConnection[]>("/open-finance/connections");
+    return response.data;
+};
+
+export const getAccountsOverview = async () => {
+    const response = await apiClient.get<AccountsOverview>("/open-finance/accounts");
     return response.data;
 };
 
