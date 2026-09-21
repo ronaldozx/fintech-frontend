@@ -7,8 +7,8 @@ export const chartColors = {
     category: "#3987e5",
     grid: "rgba(255,255,255,0.06)",
     axis: "rgba(255,255,255,0.16)",
-    textPrimary: "${theme.colors.text}",
-    textSecondary: "${theme.colors.textMuted}",
+    textPrimary: theme.colors.text,
+    textSecondary: theme.colors.textMuted,
 };
 
 export const ChartMessage = styled.div`

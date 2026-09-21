@@ -13,7 +13,7 @@ export const Option = styled.button<{ $selected: boolean }>`
     justify-content: space-between;
     gap: 12px;
     padding: 10px 12px;
-    color: ${(props) => (props.$selected ? "${theme.colors.text}" : "${theme.colors.textMuted}")};
+    color: ${(props) => (props.$selected ? theme.colors.text : theme.colors.textMuted)};
     font-size: 14px;
     font-weight: ${(props) => (props.$selected ? 600 : 400)};
     text-align: left;
