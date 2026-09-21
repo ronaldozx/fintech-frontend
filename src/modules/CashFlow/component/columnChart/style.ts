@@ -4,8 +4,15 @@ import { theme } from "../../../../styles/theme";
 export const Frame = styled.div`
     position: relative;
     flex: 1;
-    min-height: 200px;
+    min-height: 240px;
     width: 100%;
+`;
+
+export const Svg = styled.svg`
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
 `;
 
 export const Legend = styled.div`

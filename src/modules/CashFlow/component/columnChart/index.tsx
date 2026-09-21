@@ -9,6 +9,7 @@ import {
     HitArea,
     Legend,
     LegendItem,
+    Svg,
     Swatch,
     Tooltip,
     TooltipKey,
@@ -69,7 +70,7 @@ export function ColumnChart({ points, ariaLabel }: ColumnChartProps) {
 
             <Frame ref={ref}>
                 {width > 0 && height > 0 && (
-                    <svg width={width} height={height} role="img" aria-label={ariaLabel}>
+                    <Svg width={width} height={height} role="img" aria-label={ariaLabel}>
                         {scale.ticks.map((tick) => (
                             <g key={tick}>
                                 <line
@@ -144,7 +145,7 @@ export function ColumnChart({ points, ariaLabel }: ColumnChartProps) {
                                 {formatCompact(peak.value)}
                             </text>
                         )}
-                    </svg>
+                    </Svg>
                 )}
 
                 {active && (
