@@ -1,9 +1,10 @@
 import { useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faChevronRight, faPen, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPen, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { BudgetModal } from "../../components/budgetModal";
 import { DefaultButtonStyle } from "../../components/button/style";
 import { Frame } from "../../components/frame";
+import { MonthNavigator } from "../../components/monthNavigator";
 import { PageHeader } from "../../components/pageHeader";
 import { StatTile } from "../../components/statTile";
 import { UsageBar } from "../../components/usageBar";
@@ -14,7 +15,7 @@ import { chartColors } from "../../styles/chart";
 import { theme } from "../../styles/theme";
 import { budgetTitle, countByStatus, remainingText } from "../../utils/budgets";
 import { formatMoney } from "../../utils/format";
-import { currentMonth, formatMonthLabel, shiftMonth } from "../../utils/month";
+import { currentMonth } from "../../utils/month";
 import type { BudgetFormTarget, BudgetProgress } from "../../types/Budgets";
 import {
     Actions,
@@ -25,8 +26,6 @@ import {
     Cards,
     IconButton,
     Message,
-    MonthLabel,
-    MonthNav,
     Remaining,
     Stats,
     UnbudgetedInfo,
@@ -73,19 +72,7 @@ export function Budgets() {
                 subtitle="Defina limites mensais e acompanhe o quanto já gastou"
                 actions={
                     <Actions>
-                        <MonthNav>
-                            <DefaultButtonStyle onClick={() => setMonth(shiftMonth(month, -1))} aria-label="Mês anterior">
-                                <FontAwesomeIcon icon={faChevronLeft} />
-                            </DefaultButtonStyle>
-                            <MonthLabel>{formatMonthLabel(month)}</MonthLabel>
-                            <DefaultButtonStyle
-                                onClick={() => setMonth(shiftMonth(month, 1))}
-                                disabled={month >= currentMonth()}
-                                aria-label="Próximo mês"
-                            >
-                                <FontAwesomeIcon icon={faChevronRight} />
-                            </DefaultButtonStyle>
-                        </MonthNav>
+                        <MonthNavigator month={month} onChange={setMonth} />
                         <DefaultButtonStyle onClick={() => setTarget({ mode: "create", category: null })} disabled={data === null}>
                             <FontAwesomeIcon icon={faPlus} /> Novo orçamento
                         </DefaultButtonStyle>
