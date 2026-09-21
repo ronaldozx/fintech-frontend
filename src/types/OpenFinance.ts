@@ -4,6 +4,9 @@ export type BankConnection = {
     institutionName: string | null;
     status: string | null;
     createdAt: string;
+    lastSyncedAt: string | null;
+    lastSyncAttemptAt: string | null;
+    lastSyncError: string | null;
 };
 
 export type ConnectToken = {
@@ -14,4 +17,5 @@ export type SyncResult = {
     connections: number;
     imported: number;
     transferPairs: number;
+    failed: number;
 };
