@@ -1,5 +1,74 @@
 import apiClient from "./apiClient";
-import type { CategorySummary, DailySummary, Dashboard, DashboardParams, DateRange, MonthlySummary } from "../types/Transaction";
+import type {
+    CategorySummary,
+    DailySummary,
+    Dashboard,
+    DashboardParams,
+    DateRange,
+    MonthlySummary,
+    TransactionQuery,
+    TransactionScope,
+    TransactionSearch,
+} from "../types/Transaction";
+
+type SearchParams = DateRange & {
+    q?: string;
+    category?: string;
+    type?: string;
+    paymentMethod?: string;
+    neutral?: boolean;
+    page?: number;
+    size?: number;
+    sort: string;
+};
+
+const NEUTRAL_BY_SCOPE: Record<TransactionScope, boolean | undefined> = {
+    all: undefined,
+    counted: false,
+    neutral: true,
+};
+
+const toSearchParams = (query: TransactionQuery, includePaging: boolean): SearchParams => {
+    const { range, filters } = query;
+    return {
+        startDate: range.startDate,
+        endDate: range.endDate,
+        q: filters.q.trim() || undefined,
+        category: filters.category || undefined,
+        type: filters.type || undefined,
+        paymentMethod: filters.paymentMethod || undefined,
+        neutral: NEUTRAL_BY_SCOPE[filters.scope],
+        page: includePaging ? query.page : undefined,
+        size: includePaging ? query.size : undefined,
+        sort: `${query.sortKey},${query.sortDir}`,
+    };
+};
+
+export const searchTransactions = async (query: TransactionQuery) => {
+    const response = await apiClient.get<TransactionSearch>("/transaction/search", { params: toSearchParams(query, true) });
+    return response.data;
+};
+
+export const getTransactionCategories = async () => {
+    const response = await apiClient.get<string[]>("/transaction/categories");
+    return response.data;
+};
+
+export const downloadTransactionsCsv = async (query: TransactionQuery) => {
+    const response = await apiClient.get<Blob>("/transaction/export", {
+        params: toSearchParams(query, false),
+        responseType: "blob",
+    });
+
+    const url = URL.createObjectURL(response.data);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "transacoes.csv";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+};
 
 export const getDashboard = async (params: DashboardParams) => {
     const response = await apiClient.get<Dashboard>("/transaction/dashboard", { params });
