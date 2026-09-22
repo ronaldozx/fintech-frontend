@@ -8,6 +8,7 @@ import { Insights } from "./pages/insights"
 import { AgendaPage } from "./pages/agenda"
 import { Investments } from "./pages/investments"
 import { Settings } from "./pages/settings"
+import { Advisor } from "./pages/advisor"
 import { GlobalStyle } from "./styles/GlobalStyles"
 import { GuestRoute, ProtectedRoute } from "./components/routeGuard"
 import { AppLayout } from "./components/appLayout"
@@ -31,6 +32,7 @@ function App() {
             <Route path="/agenda" element={<AgendaPage/>}/>
             <Route path="/investimentos" element={<Investments/>}/>
             <Route path="/configuracoes" element={<Settings/>}/>
+            <Route path="/assistente" element={<Advisor/>}/>
           </Route>
         </Route>
         <Route path="*" element={<Navigate to="/" replace/>}/>
