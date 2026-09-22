@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { sheen } from "../../styles/motion";
 import { FIT } from "../../styles/layout";
 import { theme } from "../../styles/theme";
 
@@ -31,6 +32,18 @@ export const Tile = styled.div<{ $hero: boolean; $accent?: string }>`
         width: 3px;
         background: ${(props) => props.$accent ?? theme.gradients.brand};
     }
+
+    ${(props) => props.$hero && css`
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(115deg, transparent 42%, rgba(255,255,255,0.07) 50%, transparent 58%);
+            transform: translateX(-130%);
+            animation: ${sheen} 8s ease-in-out 1.2s infinite;
+            pointer-events: none;
+        }
+    `}
 `;
 
 export const Label = styled.div`
@@ -52,6 +65,7 @@ export const Value = styled.div<{ $hero: boolean }>`
     font-weight: 700;
     line-height: 1.05;
     letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
