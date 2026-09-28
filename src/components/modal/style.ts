@@ -1,40 +1,48 @@
 import styled from "styled-components";
+import { theme } from "../../styles/theme";
 
 export const Overlay = styled.div`
   position: fixed;
   inset: 0;
-  background: rgba(2,6,10,0.6);
+  background: rgba(2,4,10,0.72);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1200;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(6px);
 `;
 
 export const Dialog = styled.div`
+  position: relative;
   width: 100%;
-  max-width: 720px;
+  max-width: 560px;
   margin: 16px;
-  background: rgba(5,8,16,0.98);
-  background-color: #050810;
-  background-image:
-        radial-gradient(ellipse 80% 60% at 10% 20%, rgba(79,209,197,0.13) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 50% at 90% 80%, rgba(56,178,172,0.09) 0%, transparent 55%),
-        radial-gradient(ellipse 40% 40% at 50% 50%, rgba(15,30,60,0.8) 0%, transparent 80%);  
-  border: 1px solid rgba(79,209,197,0.08);
-  border-radius: 12px;
-  box-shadow: 0 12px 36px rgba(2,6,10,0.6);
-  padding: 20px;
-  color: #E6EEF6;
+  padding: 22px;
+  color: ${theme.colors.text};
+  background: linear-gradient(180deg, rgba(15,24,44,0.96) 0%, rgba(8,13,26,0.98) 100%);
+  border: 1px solid ${theme.colors.borderStrong};
+  border-radius: ${theme.radius.large};
+  box-shadow: 0 30px 80px rgba(0,0,0,0.7), ${theme.glow.soft};
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
   transform-origin: center top;
   animation: modalShow 220ms cubic-bezier(.2,.9,.3,1) both;
 
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 12%;
+    right: 12%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, ${theme.colors.accent}, transparent);
+    opacity: 0.7;
+  }
+
   @keyframes modalShow {
     from {
-      transform: translateY(-8px) scale(0.995);
+      transform: translateY(-8px) scale(0.99);
       opacity: 0;
     }
     to {
@@ -53,22 +61,30 @@ export const Header = styled.div`
 
 export const Title = styled.h3`
   margin: 0;
-  font-size: 16px;
-  color: #F0F4F8;
+  font-family: ${theme.fonts.display};
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: ${theme.colors.text};
 `;
 
 export const CloseButton = styled.button`
   background: transparent;
   border: none;
-  color: #94A3B8;
+  color: ${theme.colors.textMuted};
   cursor: pointer;
-  padding: 6px;
-  border-radius: 8px;
+  padding: 6px 8px;
+  border-radius: ${theme.radius.small};
   transition: background 120ms ease, color 120ms ease;
 
   &:hover {
-    background: rgba(255,255,255,0.02);
-    color: #D1EDEA;
+    background: ${theme.colors.accentSoft};
+    color: ${theme.colors.text};
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.accent};
   }
 `;
 

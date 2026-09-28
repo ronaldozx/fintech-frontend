@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { theme } from "../../styles/theme";
 
 export const List = styled.div`
     display: flex;
@@ -15,7 +16,7 @@ export const Row = styled.div`
     gap: 12px;
     padding: 10px 12px;
     background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(79,209,197,0.08);
+    border: 1px solid ${theme.colors.border};
     border-radius: 10px;
 `;
 
@@ -27,13 +28,13 @@ export const Info = styled.div`
 `;
 
 export const Name = styled.div`
-    color: #F0F4F8;
+    color: ${theme.colors.text};
     font-weight: 600;
     font-size: 14px;
 `;
 
 export const Meta = styled.div`
-    color: #94A3B8;
+    color: ${theme.colors.textMuted};
     font-size: 12px;
 `;
 
@@ -46,16 +47,16 @@ export const Toolbar = styled.div`
 `;
 
 export const Message = styled.div`
-    color: #94A3B8;
+    color: ${theme.colors.textMuted};
     font-size: 13px;
 `;
 
 export const Success = styled.div`
-    color: #4FD1C5;
+    color: ${theme.colors.accent};
     font-size: 13px;
 `;
 
 export const ErrorText = styled.div`
-    color: #F87171;
+    color: ${theme.colors.danger};
     font-size: 13px;
 `;

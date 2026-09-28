@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import { theme } from "./theme";
 
 export const GlobalStyle = createGlobalStyle`
   * {
@@ -7,47 +8,41 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  html, body, #root {
+    height: 100%;
+  }
+
   body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: #0B0E14;
-    color: #E2E8F0;
+    font-family: ${theme.fonts.body};
+    color: ${theme.colors.text};
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
-    background-color: #050810;
-    background-image:
-        radial-gradient(ellipse 80% 60% at 10% 20%, rgba(79,209,197,0.13) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 50% at 90% 80%, rgba(56,178,172,0.09) 0%, transparent 55%),
-        radial-gradient(ellipse 40% 40% at 50% 50%, rgba(15,30,60,0.8) 0%, transparent 80%);
-    position: relative;
-    background-size: 100% 100%; 
-    background-repeat: no-repeat; 
-    background-attachment: fixed;
     overflow: hidden;
+    background-color: ${theme.colors.background};
+    background-image:
+        radial-gradient(ellipse 70% 50% at 8% -10%, rgba(34,211,238,0.16) 0%, transparent 60%),
+        radial-gradient(ellipse 55% 45% at 100% 0%, rgba(139,92,246,0.14) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 50% 120%, rgba(34,211,238,0.07) 0%, transparent 70%);
+    background-attachment: fixed;
+    position: relative;
 
     &::before {
         content: '';
-        position: absolute;
+        position: fixed;
         inset: 0;
         background-image:
-            linear-gradient(rgba(79,209,197,0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(79,209,197,0.04) 1px, transparent 1px);
-        background-size: 40px 40px;
-        mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
-        pointer-events: none;
-        z-index: 0; 
-    }
-
-    &::after {
-        content: '';
-        position: absolute;
-        left: 0; right: 0;
-        height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(79,209,197,0.3), rgba(79,209,197,0.6), rgba(79,209,197,0.3), transparent);
-        top: 40%;
+            linear-gradient(rgba(125,211,252,0.035) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(125,211,252,0.035) 1px, transparent 1px);
+        background-size: 44px 44px;
+        mask-image: radial-gradient(ellipse 85% 75% at 50% 35%, black 0%, transparent 100%);
         pointer-events: none;
         z-index: 0;
     }
+  }
+
+  #root {
+    position: relative;
+    z-index: 1;
   }
 
   button {
@@ -55,6 +50,7 @@ export const GlobalStyle = createGlobalStyle`
     border: none;
     background: none;
     font-family: inherit;
+    color: inherit;
   }
 
   a {
@@ -62,17 +58,29 @@ export const GlobalStyle = createGlobalStyle`
     color: inherit;
   }
 
+  ::selection {
+    background: rgba(34,211,238,0.3);
+  }
+
   ::-webkit-scrollbar {
     width: 8px;
+    height: 8px;
   }
   ::-webkit-scrollbar-track {
-    background: #0B0E14;
+    background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: #21262D;
+    background: rgba(125,211,252,0.18);
     border-radius: 10px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #4FD1C5;
+    background: ${theme.colors.accent};
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 `;

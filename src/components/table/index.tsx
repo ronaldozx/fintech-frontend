@@ -1,5 +1,6 @@
 
 import React, { useMemo, useState } from "react";
+import { theme } from "../../styles/theme";
 import {
 	TableWrapper,
 	StyledTable,
@@ -100,7 +101,7 @@ export function Table<T extends Record<string, unknown>>(props: TableProps<T>): 
 					<Tr>
 						{columns.map((col) => (
 							<Th key={col.key} style={{ width: col.width }} align={col.align} onClick={() => handleSort(col)} sortable={!!col.sortable}>
-								<div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+								<div style={{ display: "flex", alignItems: "center", gap: 8, justifyContent: col.align === "right" ? "flex-end" : col.align === "center" ? "center" : "flex-start" }}>
 									<span>{col.title}</span>
 									{col.sortable && sortBy === col.key ? <small>{sortDir === "asc" ? "↑" : "↓"}</small> : null}
 								</div>
@@ -146,7 +147,7 @@ export function Table<T extends Record<string, unknown>>(props: TableProps<T>): 
 					<PageButton onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page === 1}>
 						‹
 					</PageButton>
-					<div style={{ padding: "0 8px", color: "#94A3B8" }}>
+					<div style={{ padding: "0 8px", color: theme.colors.textMuted }}>
 						Página {page} / {totalPages}
 					</div>
 					<PageButton onClick={() => setPage((p) => Math.min(totalPages, p + 1))} disabled={page === totalPages}>

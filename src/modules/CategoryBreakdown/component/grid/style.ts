@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { theme } from "../../../../styles/theme";
 import { chartColors } from "../../../../styles/chart";
 
 export const Bar = styled.div`
@@ -21,7 +22,7 @@ export const Row = styled.div`
     }
 
     &:focus-visible {
-        outline: 2px solid rgba(79,209,197,0.4);
+        outline: 2px solid ${theme.colors.accent};
         outline-offset: 2px;
     }
 `;
@@ -43,14 +44,14 @@ export const RowHead = styled.div`
 `;
 
 export const Name = styled.span`
-    color: #F0F4F8;
+    color: ${theme.colors.text};
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 `;
 
 export const Meta = styled.span`
-    color: #94A3B8;
+    color: ${theme.colors.textMuted};
     font-size: 12px;
     white-space: nowrap;
 `;
@@ -71,7 +72,7 @@ export const Track = styled.div`
 export const Value = styled.span`
     min-width: 64px;
     text-align: right;
-    color: #F0F4F8;
+    color: ${theme.colors.text};
     font-size: 12px;
     font-weight: 600;
     white-space: nowrap;

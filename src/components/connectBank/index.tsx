@@ -42,7 +42,7 @@ export function ConnectBank({ onConnected }: ConnectBankProps) {
     return (
         <>
             <DefaultButtonStyle onClick={start} disabled={starting} title="Conectar banco">
-                <FontAwesomeIcon icon={faPlus} />
+                <FontAwesomeIcon icon={faPlus} /> Conectar banco
             </DefaultButtonStyle>
 
             {connectToken && (

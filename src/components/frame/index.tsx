@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Actions, Body, Container, Header } from "./style";
+import { Actions, Body, Container, Header, Title } from "./style";
 
 type FrameProps = {
     title: string;
@@ -11,7 +11,7 @@ export function Frame({ title, actions, children }: FrameProps) {
     return (
         <Container>
             <Header>
-                <span>{title}</span>
+                <Title>{title}</Title>
                 {actions && <Actions>{actions}</Actions>}
             </Header>
             <Body>{children}</Body>

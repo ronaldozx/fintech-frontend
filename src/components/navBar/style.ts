@@ -1,7 +1,7 @@
-// navbar/style.ts
 import styled from "styled-components";
+import { theme } from "../../styles/theme";
 
-export const Container = styled.div`
+export const Container = styled.header`
     position: fixed;
     top: 0;
     left: 0;
@@ -13,17 +13,20 @@ export const Container = styled.div`
     width: 100%;
     padding: 0 24px;
     box-sizing: border-box;
-    background: rgba(5,8,16,0.95);
-    border-bottom: 1px solid rgba(79,209,197,0.08);
+    background: rgba(5,8,16,0.72);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid ${theme.colors.border};
     z-index: 1000;
-    
 
     &::after {
         content: '';
         position: absolute;
-        bottom: 0; left: 10%; right: 10%;
+        bottom: -1px;
+        left: 0;
+        right: 0;
         height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(79,209,197,0.3), transparent);
+        background: linear-gradient(90deg, transparent 0%, ${theme.colors.accent} 30%, ${theme.colors.violet} 70%, transparent 100%);
+        opacity: 0.55;
         pointer-events: none;
     }
 `;
@@ -31,29 +34,30 @@ export const Container = styled.div`
 export const Logo = styled.div`
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 `;
 
 export const LogoMark = styled.div`
-    width: 30px;
-    height: 30px;
-    background: linear-gradient(135deg, #4FD1C5, #2D9B91);
-    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    background: ${theme.gradients.brand};
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 14px rgba(79,209,197,0.25);
+    box-shadow: ${theme.glow.accent};
 `;
 
 export const LogoText = styled.h1`
-    font-size: 16px;
-    font-weight: 600;
-    color: #F0F4F8;
-    letter-spacing: -0.3px;
+    font-family: ${theme.fonts.display};
+    font-size: 18px;
+    font-weight: 700;
+    color: ${theme.colors.text};
+    letter-spacing: -0.02em;
     margin: 0;
 
     span {
-        color: #4FD1C5;
+        color: ${theme.colors.accent};
     }
 `;
 
@@ -61,16 +65,16 @@ export const ContainerRight = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 `;
 
 export const IconButton = styled.button`
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.06);
+    width: 38px;
+    height: 38px;
+    border-radius: ${theme.radius.medium};
+    border: 1px solid ${theme.colors.border};
     background: rgba(255,255,255,0.03);
-    color: #475569;
+    color: ${theme.colors.textMuted};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -79,27 +83,27 @@ export const IconButton = styled.button`
     transition: all 0.2s;
 
     &:hover {
-        border-color: rgba(79,209,197,0.2);
-        color: #94A3B8;
+        border-color: ${theme.colors.borderStrong};
+        color: ${theme.colors.text};
     }
 `;
 
 export const Badge = styled.div`
     position: absolute;
-    top: 6px;
-    right: 6px;
+    top: 7px;
+    right: 7px;
     width: 7px;
     height: 7px;
-    background: #4FD1C5;
+    background: ${theme.colors.accent};
     border-radius: 50%;
-    box-shadow: 0 0 6px rgba(79,209,197,0.6);
+    box-shadow: 0 0 8px ${theme.colors.accent};
     border: 1.5px solid #050810;
 `;
 
 export const DividerV = styled.div`
     width: 1px;
     height: 24px;
-    background: rgba(255,255,255,0.06);
+    background: ${theme.colors.hairline};
     margin: 0 4px;
 `;
 
@@ -107,66 +111,74 @@ export const UserMenu = styled.button`
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 4px 10px 4px 4px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.06);
+    padding: 4px 12px 4px 4px;
+    border-radius: ${theme.radius.medium};
+    border: 1px solid ${theme.colors.border};
     background: rgba(255,255,255,0.03);
     cursor: pointer;
     transition: all 0.2s;
 
     &:hover {
-        border-color: rgba(79,209,197,0.15);
+        border-color: ${theme.colors.borderStrong};
+    }
+
+    &:focus-visible {
+        outline: 2px solid ${theme.colors.accent};
+        outline-offset: 2px;
     }
 `;
 
 export const Avatar = styled.div`
-    width: 28px;
-    height: 28px;
-    border-radius: 8px;
-    background: linear-gradient(135deg, rgba(79,209,197,0.3), rgba(45,155,145,0.3));
-    border: 1px solid rgba(79,209,197,0.2);
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: ${theme.gradients.brand};
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: ${theme.fonts.display};
     font-size: 11px;
-    font-weight: 500;
-    color: #4FD1C5;
+    font-weight: 700;
+    color: #04060c;
 `;
 
 export const UserInfo = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 3px;
+    text-align: left;
 `;
 
 export const UserName = styled.span`
     font-size: 12px;
-    font-weight: 500;
-    color: #CBD5E1;
+    font-weight: 600;
+    color: ${theme.colors.text};
     line-height: 1;
 `;
 
 export const UserEmail = styled.span`
-    font-size: 10px;
-    color: #94A3B8;
+    font-size: 11px;
+    color: ${theme.colors.textMuted};
     line-height: 1;
 `;
 
 export const UserRole = styled.span`
+    font-family: ${theme.fonts.mono};
     font-size: 10px;
-    color: #475569;
+    color: ${theme.colors.accent};
     line-height: 1;
+    letter-spacing: 0.06em;
 `;
 
 export const UserSideBar = styled.div`
     position: fixed;
-    top: 10px;
+    top: 12px;
     right: 16px;
     width: 300px;
-    background: rgba(5,8,16,0.95);
-    border: 1px solid rgba(79,209,197,0.08);
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(79,209,197,0.1);
+    background: linear-gradient(180deg, rgba(15,24,44,0.97) 0%, rgba(8,13,26,0.98) 100%);
+    border: 1px solid ${theme.colors.borderStrong};
+    border-radius: ${theme.radius.medium};
+    box-shadow: 0 24px 60px rgba(0,0,0,0.6);
     padding: 12px;
     display: flex;
     flex-direction: column;
@@ -185,24 +197,12 @@ export const UserSideBar = styled.div`
             opacity: 1;
         }
     }
-
-    &::before {
-        content: '';
-        position: absolute;
-        top: -6px;
-        right: 28px;
-        width: 12px;
-        height: 12px;
-        background: rgba(5,8,16,0.95);
-        border: 1px solid rgba(79,209,197,0.08);
-        transform: rotate(45deg);
-    }
 `;
 
 export const Content = styled.div`
     display: flex;
     flex-direction: column;
-    border-radius: 8px;
+    border-radius: ${theme.radius.small};
     gap: 10px;
     padding: 8px;
 `;
@@ -211,29 +211,30 @@ export const UserContent = styled.div`
     display: flex;
     flex-direction: row;
     width: 100%;
-    border-radius: 8px;
+    border-radius: ${theme.radius.small};
     align-items: center;
     gap: 12px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
     padding: 12px;
-    border: 1px solid rgba(255,255,255,0.06);
+    border: 1px solid ${theme.colors.hairline};
     background: rgba(255,255,255,0.03);
 `;
 
 export const LinkedText = styled.span`
-    color: #ffffffad;
+    color: ${theme.colors.textMuted};
     cursor: pointer;
-    font-size: 12px;
-    transition: all 0.2s;
+    font-size: 13px;
+    transition: color 0.2s;
     padding-top: 8px;
     gap: 10px;
     display: flex;
+    align-items: center;
 
     &:hover {
-        color: #2D9B91;
+        color: ${theme.colors.accent};
     }
     &:first-child {
-        border-top: 1px solid rgba(255,255,255,0.06);
-        border-bottom: 1px solid rgba(255,255,255,0.06);
+        border-top: 1px solid ${theme.colors.hairline};
+        border-bottom: 1px solid ${theme.colors.hairline};
+        padding-bottom: 8px;
     }
 `;

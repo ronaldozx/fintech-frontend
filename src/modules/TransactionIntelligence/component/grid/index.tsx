@@ -1,6 +1,7 @@
 import Table, { type Column } from "../../../../components/table";
 import { Frame } from "../../../../components/frame";
 import { formatDate } from "../../../../utils/format";
+import { theme } from "../../../../styles/theme";
 import { useDashboard } from "../../../../hooks/useDashboard";
 import type { DateRange, Transaction } from "../../../../types/Transaction";
 import { NeutralTag, TableArea } from "./style";
@@ -34,7 +35,7 @@ export function TransactionIntelligence({ range, reloadKey }: TransactionIntelli
       render: (row) => {
         const formatted = Math.abs(row.amount).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
         return (
-          <span style={{ color: row.amount < 0 ? '#FF6B6B' : '#0ea500', whiteSpace: 'nowrap' }}>
+          <span style={{ color: row.amount < 0 ? theme.colors.negative : theme.colors.positive, whiteSpace: 'nowrap' }}>
             {row.amount < 0 ? `- ${formatted}` : `+ ${formatted}`}
           </span>
         );
