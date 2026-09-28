@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { FIT } from "../../styles/layout";
+import { GROW_EASING, GROW_MS, growX } from "../../styles/motion";
 import { theme } from "../../styles/theme";
 
 export const ROW_HEIGHT = 56;
@@ -145,6 +146,8 @@ export const Fill = styled.div`
     background: ${theme.gradients.brand};
     border-radius: 4px;
     transition: width 400ms ease;
+    transform-origin: left;
+    animation: ${growX} ${GROW_MS}ms ${GROW_EASING} both;
 
     @media (prefers-reduced-motion: reduce) {
         transition: none;

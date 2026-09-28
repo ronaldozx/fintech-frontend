@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { FIT } from "../../styles/layout";
+import { riseIn } from "../../styles/motion";
 
 export const Main = styled.main`
     margin-left: 72px;
@@ -14,7 +15,13 @@ export const Main = styled.main`
 
     & > * {
         flex-shrink: 0;
+        animation: ${riseIn} 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
     }
+
+    & > *:nth-child(2) { animation-delay: 60ms; }
+    & > *:nth-child(3) { animation-delay: 120ms; }
+    & > *:nth-child(4) { animation-delay: 180ms; }
+    & > *:nth-child(n + 5) { animation-delay: 240ms; }
 
     ${FIT} {
         padding: 16px 24px 20px;

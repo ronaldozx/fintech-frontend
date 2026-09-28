@@ -20,6 +20,15 @@ export const Container = styled.section<{ $fit: boolean }>`
         0 24px 48px rgba(0,0,0,0.4),
         ${theme.glow.soft};
     overflow: hidden;
+    transition: border-color 200ms ease, box-shadow 200ms ease;
+
+    &:hover {
+        border-color: ${theme.colors.borderStrong};
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.05),
+            0 24px 48px rgba(0,0,0,0.4),
+            0 0 28px rgba(34,211,238,0.10);
+    }
 
     ${FIT} {
         gap: 8px;

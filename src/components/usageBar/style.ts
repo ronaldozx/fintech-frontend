@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { FIT } from "../../styles/layout";
+import { GROW_EASING, GROW_MS, growX } from "../../styles/motion";
 import { theme } from "../../styles/theme";
 import type { UsageTone } from "../../types/Accounts";
 
@@ -55,4 +56,6 @@ export const Fill = styled.div<{ $tone: UsageTone }>`
     background: ${(props) => toneColor[props.$tone]};
     border-radius: 4px;
     transition: width 200ms ease;
+    transform-origin: left;
+    animation: ${growX} ${GROW_MS}ms ${GROW_EASING} both;
 `;
