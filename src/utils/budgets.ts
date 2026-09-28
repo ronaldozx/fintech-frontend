@@ -20,7 +20,4 @@ export const availableCategories = (categories: string[], budgets: BudgetProgres
     return categories.filter((category) => !taken.has(category.toLowerCase()));
 };
 
-export const parseLimit = (text: string) => {
-    const value = Number(text.replace(",", "."));
-    return Number.isFinite(value) && value > 0 ? value : null;
-};
+export { parseAmount as parseLimit } from "./money";

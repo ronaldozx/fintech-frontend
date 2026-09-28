@@ -13,4 +13,5 @@ export type ConnectToken = {
 export type SyncResult = {
     connections: number;
     imported: number;
+    transferPairs: number;
 };

@@ -6,7 +6,10 @@ import type {
     DashboardParams,
     DateRange,
     MonthlySummary,
+    TransactionInput,
+    TransactionPatch,
     TransactionQuery,
+    TransactionRow,
     TransactionScope,
     TransactionSearch,
 } from "../types/Transaction";
@@ -88,4 +91,23 @@ export const getDailySummary = async (range: DateRange) => {
 export const getCategorySummary = async (range: DateRange) => {
     const response = await apiClient.get<CategorySummary[]>("/transaction/summary/categories", { params: range });
     return response.data;
+};
+
+export const createTransaction = async (input: TransactionInput) => {
+    const response = await apiClient.post<TransactionRow>("/transaction", input);
+    return response.data;
+};
+
+export const updateTransaction = async (id: number, patch: TransactionPatch) => {
+    const response = await apiClient.patch<TransactionRow>(`/transaction/${id}`, patch);
+    return response.data;
+};
+
+export const deleteTransaction = async (id: number) => {
+    await apiClient.delete(`/transaction/${id}`);
+};
+
+export const reconcileTransfers = async () => {
+    const response = await apiClient.post<{ pairs: number }>("/transaction/reconcile-transfers");
+    return response.data.pairs;
 };

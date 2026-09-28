@@ -1,22 +1,23 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDownload, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faDownload, faMagnifyingGlass, faPlus, faRightLeft } from "@fortawesome/free-solid-svg-icons";
 import { DefaultButtonStyle } from "../../components/button/style";
 import { CustomInput } from "../../components/customInput";
 import { Frame } from "../../components/frame";
-import { NeutralTag } from "../../components/neutralTag";
+import { ManualTag, NeutralTag } from "../../components/neutralTag";
 import { Fill } from "../../components/pageFill/style";
 import { PageHeader } from "../../components/pageHeader";
 import { Pagination } from "../../components/pagination";
 import { PeriodFilter } from "../../components/periodFilter";
 import { SelectField, type SelectOption } from "../../components/selectField";
 import { StatTile } from "../../components/statTile";
+import { TransactionModal } from "../../components/transactionModal";
 import Table, { type Column, type TableSort } from "../../components/table";
-import { ErrorText } from "../../components/bankConnections/style";
+import { ErrorText, Success } from "../../components/bankConnections/style";
 import { useDebouncedValue } from "../../hooks/useDebouncedValue";
 import { useFitViewport } from "../../hooks/useFitViewport";
 import { useTransactionCategories, useTransactionSearch } from "../../hooks/useTransactionSearch";
-import { downloadTransactionsCsv } from "../../services/transaction";
+import { downloadTransactionsCsv, reconcileTransfers } from "../../services/transaction";
 import { chartColors } from "../../styles/chart";
 import { theme } from "../../styles/theme";
 import { formatDate, formatMoney } from "../../utils/format";
@@ -58,7 +59,8 @@ const columns: Column<TransactionRow>[] = [
         render: (row) => (
             <>
                 {row.category ?? "Outros"}
-                {row.neutral && <NeutralTag />}
+                {row.manual && <ManualTag />}
+                {row.neutral && <NeutralTag reason={row.neutralReason} />}
             </>
         ),
     },
@@ -85,12 +87,16 @@ export function Transactions() {
     const [sort, setSort] = useState<TableSort>({ key: "date", dir: "desc" });
     const [exporting, setExporting] = useState(false);
     const [exportError, setExportError] = useState<string | null>(null);
+    const [reloadKey, setReloadKey] = useState(0);
+    const [editing, setEditing] = useState<TransactionRow | "new" | null>(null);
+    const [reconciling, setReconciling] = useState(false);
+    const [feedback, setFeedback] = useState<string | null>(null);
     const [fitSize, setFitSize] = useState<number | null>(null);
     const fitSizeRef = useRef<number | null>(null);
     const fitViewport = useFitViewport();
 
     const debouncedText = useDebouncedValue(filters.q, SEARCH_DELAY_MS);
-    const categories = useTransactionCategories();
+    const categories = useTransactionCategories(reloadKey);
     const range = useMemo(() => getPeriodRange(period), [period]);
 
     const query = useMemo<TransactionQuery>(
@@ -105,7 +111,7 @@ export function Transactions() {
         [range, filters, debouncedText, page, sort, fitViewport, fitSize],
     );
 
-    const { data, loading, error } = useTransactionSearch(query);
+    const { data, loading, error } = useTransactionSearch(query, reloadKey);
 
     const categoryOptions = useMemo<SelectOption<string>[]>(
         () => [{ value: "", label: "Todas" }, ...categories.map((category) => ({ value: category, label: category }))],
@@ -134,6 +140,30 @@ export function Transactions() {
         setPage(0);
     }
 
+    function handleSaved() {
+        setEditing(null);
+        setReloadKey((key) => key + 1);
+    }
+
+    async function handleReconcile() {
+        setReconciling(true);
+        setExportError(null);
+        setFeedback(null);
+        try {
+            const pairs = await reconcileTransfers();
+            setFeedback(
+                pairs > 0
+                    ? `${pairs} transferência(s) entre as suas contas foram tiradas dos totais`
+                    : "Nenhuma transferência nova entre as suas contas foi encontrada",
+            );
+            setReloadKey((key) => key + 1);
+        } catch (err) {
+            setExportError(err instanceof Error ? err.message : "Erro ao conciliar transferências");
+        } finally {
+            setReconciling(false);
+        }
+    }
+
     async function handleExport() {
         setExporting(true);
         setExportError(null);
@@ -159,6 +189,12 @@ export function Transactions() {
                 actions={
                     <>
                         <PeriodFilter value={period} onChange={changePeriod} />
+                        <DefaultButtonStyle onClick={() => setEditing("new")} title="Registrar uma transação que o banco não mostra">
+                            <FontAwesomeIcon icon={faPlus} /> Nova
+                        </DefaultButtonStyle>
+                        <DefaultButtonStyle onClick={handleReconcile} disabled={reconciling} title="Tirar dos totais as transferências entre as suas contas">
+                            <FontAwesomeIcon icon={faRightLeft} /> {reconciling ? "Conciliando..." : "Conciliar"}
+                        </DefaultButtonStyle>
                         <DefaultButtonStyle onClick={handleExport} disabled={exporting || total === 0} title="Baixar o resultado do filtro em CSV">
                             <FontAwesomeIcon icon={faDownload} /> {exporting ? "Exportando..." : "Exportar CSV"}
                         </DefaultButtonStyle>
@@ -167,6 +203,7 @@ export function Transactions() {
             />
 
             {exportError && <ErrorText>{exportError}</ErrorText>}
+            {feedback && <Success>{feedback}</Success>}
 
             <FiltersPanel aria-label="Filtros">
                 <SearchField>
@@ -204,6 +241,7 @@ export function Transactions() {
                             onSortChange={changeSort}
                             fitRows
                             onFitRows={handleFitRows}
+                            onRowClick={setEditing}
                             noDataMessage="Nenhuma transação encontrada com esses filtros."
                         />
                     </TableArea>
@@ -214,6 +252,8 @@ export function Transactions() {
                 </Frame>
             </ResultsCell>
             </Fill>
+
+            {editing && <TransactionModal target={editing} categories={categories} onClose={() => setEditing(null)} onSaved={handleSaved} />}
         </>
     );
 }
