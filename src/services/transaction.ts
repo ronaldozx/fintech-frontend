@@ -1,5 +1,5 @@
 import apiClient from "./apiClient";
-import type { CategorySummary, Dashboard, DashboardParams, DateRange, MonthlySummary } from "../types/Transaction";
+import type { CategorySummary, DailySummary, Dashboard, DashboardParams, DateRange, MonthlySummary } from "../types/Transaction";
 
 export const getDashboard = async (params: DashboardParams) => {
     const response = await apiClient.get<Dashboard>("/transaction/dashboard", { params });
@@ -8,6 +8,11 @@ export const getDashboard = async (params: DashboardParams) => {
 
 export const getMonthlySummary = async (range: DateRange) => {
     const response = await apiClient.get<MonthlySummary[]>("/transaction/summary/monthly", { params: range });
+    return response.data;
+};
+
+export const getDailySummary = async (range: DateRange) => {
+    const response = await apiClient.get<DailySummary[]>("/transaction/summary/daily", { params: range });
     return response.data;
 };
 
