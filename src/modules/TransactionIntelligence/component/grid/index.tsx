@@ -4,7 +4,8 @@ import { formatDate } from "../../../../utils/format";
 import { theme } from "../../../../styles/theme";
 import { useDashboard } from "../../../../hooks/useDashboard";
 import type { DateRange, Transaction } from "../../../../types/Transaction";
-import { NeutralTag, TableArea } from "./style";
+import { NeutralTag } from "../../../../components/neutralTag";
+import { TableArea } from "./style";
 
 const PAGE_SIZE = 200;
 
@@ -27,7 +28,7 @@ export function TransactionIntelligence({ range, reloadKey }: TransactionIntelli
       render: (value) => (
         <>
           {value.category ?? 'Outros'}
-          {value.neutral && <NeutralTag title="Pagamento de fatura ou transferência entre as suas contas: não entra em receitas nem despesas">fora dos totais</NeutralTag>}
+          {value.neutral && <NeutralTag />}
         </>
       )
     },

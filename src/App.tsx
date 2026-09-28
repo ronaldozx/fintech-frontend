@@ -1,6 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
 import { AuthScreen } from "./pages/auth"
 import { Home } from "./pages/home"
+import { Transactions } from "./pages/transactions"
 import { GlobalStyle } from "./styles/GlobalStyles"
 import { GuestRoute, ProtectedRoute } from "./components/routeGuard"
 import { AppLayout } from "./components/appLayout"
@@ -17,6 +18,7 @@ function App() {
         <Route element={<ProtectedRoute/>}>
           <Route element={<AppLayout/>}>
             <Route path="/home" element={<Home/>}/>
+            <Route path="/transacoes" element={<Transactions/>}/>
           </Route>
         </Route>
         <Route path="*" element={<Navigate to="/" replace/>}/>
