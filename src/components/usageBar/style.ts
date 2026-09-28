@@ -16,9 +16,10 @@ export const Wrapper = styled.div`
 
 export const Head = styled.div`
     display: flex;
+    flex-wrap: wrap;
     align-items: baseline;
     justify-content: space-between;
-    gap: 8px;
+    gap: 4px 8px;
     font-size: 12px;
     color: ${theme.colors.textMuted};
 `;
@@ -29,7 +30,6 @@ export const Status = styled.span<{ $tone: UsageTone }>`
     gap: 6px;
     color: ${(props) => (props.$tone === "normal" ? theme.colors.textMuted : toneColor[props.$tone])};
     font-weight: 600;
-    white-space: nowrap;
 `;
 
 export const Track = styled.div`
