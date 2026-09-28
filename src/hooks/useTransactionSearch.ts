@@ -8,14 +8,14 @@ type SearchResult = {
     error: string | null;
 };
 
-export function useTransactionSearch(query: TransactionQuery) {
+export function useTransactionSearch(query: TransactionQuery, reloadKey = 0) {
     const [result, setResult] = useState<SearchResult | null>(null);
-    const key = JSON.stringify(query);
+    const key = JSON.stringify({ query, reloadKey });
 
     useEffect(() => {
         let active = true;
 
-        searchTransactions(JSON.parse(key) as TransactionQuery)
+        searchTransactions((JSON.parse(key) as { query: TransactionQuery }).query)
             .then((data) => {
                 if (active) setResult({ key, data, error: null });
             })

@@ -1,5 +1,10 @@
 import styled from "styled-components";
+import { FIT } from "../../styles/layout";
 import { theme } from "../../styles/theme";
+
+export const ROW_HEIGHT = 22;
+export const ROW_GAP = 4;
+export const MORE_HEIGHT = 16;
 
 export const Stats = styled.div<{ $stale: boolean }>`
     display: grid;
@@ -19,6 +24,36 @@ export const Grid = styled.div<{ $stale: boolean }>`
     gap: 20px;
     opacity: ${(props) => (props.$stale ? 0.55 : 1)};
     transition: opacity 150ms ease;
+
+    ${FIT} {
+        flex: 1 1 0;
+        min-height: 0;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-rows: auto minmax(0, 1fr);
+        grid-auto-rows: minmax(0, 1fr);
+        gap: 12px;
+    }
+`;
+
+export const Cell = styled.div<{ $span?: number }>`
+    min-width: 0;
+    min-height: 0;
+
+    ${FIT} {
+        grid-column: span ${(props) => props.$span ?? 1};
+    }
+`;
+
+export const TwoColumns = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    ${FIT} {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
 `;
 
 export const List = styled.ul`
@@ -26,6 +61,22 @@ export const List = styled.ul`
     flex-direction: column;
     gap: 8px;
     list-style: none;
+
+    ${FIT} {
+        flex: 1;
+        min-height: 0;
+        gap: ${ROW_GAP}px;
+        overflow: hidden;
+    }
+`;
+
+export const More = styled.li`
+    flex-shrink: 0;
+    height: ${MORE_HEIGHT}px;
+    color: ${theme.colors.textMuted};
+    font-size: 11px;
+    line-height: ${MORE_HEIGHT}px;
+    text-align: center;
 `;
 
 export const Row = styled.li`
@@ -37,6 +88,12 @@ export const Row = styled.li`
     background: rgba(255,255,255,0.02);
     border: 1px solid ${theme.colors.hairline};
     border-radius: ${theme.radius.small};
+
+    ${FIT} {
+        flex-shrink: 0;
+        height: ${ROW_HEIGHT}px;
+        padding: 0 10px;
+    }
 `;
 
 export const RowInfo = styled.div`
@@ -55,8 +112,27 @@ export const RowInfo = styled.div`
     }
 
     span {
+        overflow: hidden;
         color: ${theme.colors.textMuted};
         font-size: 12px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    ${FIT} {
+        flex-direction: row;
+        align-items: baseline;
+        gap: 8px;
+
+        strong {
+            flex-shrink: 0;
+            max-width: 60%;
+        }
+
+        span {
+            min-width: 0;
+            font-size: 11px;
+        }
     }
 `;
 
@@ -73,6 +149,11 @@ export const RowAmount = styled.div<{ $tone?: "up" | "down" }>`
 
 export const Subheading = styled.h3`
     margin: 4px 0;
+
+    ${FIT} {
+        margin: 0;
+    }
+
     color: ${theme.colors.textMuted};
     font-family: ${theme.fonts.display};
     font-size: 11px;
@@ -85,6 +166,12 @@ export const Section = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
+
+    ${FIT} {
+        flex: 1;
+        min-height: 0;
+        gap: 6px;
+    }
 `;
 
 export const Highlight = styled.div`
@@ -92,12 +179,21 @@ export const Highlight = styled.div`
     font-family: ${theme.fonts.display};
     font-size: 26px;
     font-weight: 700;
+
+    ${FIT} {
+        font-size: clamp(22px, 4vh, 30px);
+    }
 `;
 
 export const Note = styled.p`
     color: ${theme.colors.textMuted};
     font-size: 13px;
     line-height: 1.5;
+
+    ${FIT} {
+        font-size: 12px;
+        line-height: 1.35;
+    }
 `;
 
 export const Message = styled.div`

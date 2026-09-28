@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FIT } from "../../styles/layout";
 import { theme } from "../../styles/theme";
 
 export const FiltersPanel = styled.section`
@@ -19,6 +20,12 @@ export const FiltersPanel = styled.section`
     @media (max-width: 600px) {
         grid-template-columns: 1fr;
     }
+
+    ${FIT} {
+        grid-template-columns: minmax(0, 2fr) repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        padding: 10px 14px;
+    }
 `;
 
 export const SearchField = styled.div`
@@ -26,6 +33,10 @@ export const SearchField = styled.div`
 
     @media (max-width: 1200px) {
         grid-column: 1 / -1;
+    }
+
+    ${FIT} {
+        grid-column: auto;
     }
 `;
 
@@ -39,11 +50,21 @@ export const TotalsRow = styled.div<{ $stale: boolean }>`
     @media (max-width: 900px) {
         grid-template-columns: 1fr;
     }
+
+    ${FIT} {
+        gap: 14px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
 `;
 
 export const ResultsCell = styled.div`
     height: 680px;
     min-height: 0;
+
+    ${FIT} {
+        flex: 1 1 0;
+        height: auto;
+    }
 `;
 
 export const TableArea = styled.div<{ $stale: boolean }>`

@@ -1,6 +1,12 @@
 
 import styled from "styled-components";
+import { FIT } from "../../styles/layout";
 import { theme } from "../../styles/theme";
+
+export const TABLE_HEADER_HEIGHT = 36;
+export const TABLE_ROW_HEIGHT = 38;
+export const TABLE_PAGER_HEIGHT = 50;
+export const TABLE_BORDER = 2;
 
 export const TableWrapper = styled.div`
 	width: 100%;
@@ -9,10 +15,15 @@ export const TableWrapper = styled.div`
 	border-radius: ${theme.radius.medium};
 	background: rgba(4,8,18,0.45);
 	border: 1px solid ${theme.colors.hairline};
+
+	${FIT} {
+		overflow: hidden;
+	}
 `;
 
 export const StyledTable = styled.table`
 	width: 100%;
+	table-layout: fixed;
 	border-collapse: collapse;
 	color: ${theme.colors.text};
 	font-size: 13px;
@@ -27,6 +38,7 @@ export const Thead = styled.thead`
 export const Tbody = styled.tbody``;
 
 export const Tr = styled.tr<{ clickable?: boolean }>`
+	height: ${TABLE_ROW_HEIGHT}px;
 	border-bottom: 1px solid ${theme.colors.hairline};
 	transition: background 120ms ease;
 	&:hover {
@@ -36,8 +48,10 @@ export const Tr = styled.tr<{ clickable?: boolean }>`
 `;
 
 export const Th = styled.th<{ align?: string; sortable?: boolean }>`
+	height: ${TABLE_HEADER_HEIGHT}px;
 	text-align: ${(p) => p.align ?? "left"};
-	padding: 12px 14px;
+	padding: 0 14px;
+	overflow: hidden;
 	font-family: ${theme.fonts.display};
 	font-weight: 600;
 	font-size: 11px;
@@ -46,12 +60,16 @@ export const Th = styled.th<{ align?: string; sortable?: boolean }>`
 	color: ${theme.colors.textMuted};
 	border-bottom: 1px solid ${theme.colors.borderStrong};
 	user-select: none;
+	white-space: nowrap;
 	${(p) => (p.sortable ? "cursor: pointer;" : "")}
 `;
 
 export const Td = styled.td<{ align?: string }>`
 	text-align: ${(p) => p.align ?? "left"};
-	padding: 11px 14px;
+	padding: 0 14px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 	vertical-align: middle;
 	color: ${theme.colors.text};
 	font-variant-numeric: ${(p) => (p.align === "right" ? "tabular-nums" : "normal")};
@@ -68,7 +86,8 @@ export const PaginationContainer = styled.div`
 	align-items: center;
 	justify-content: flex-end;
 	gap: 8px;
-	padding: 10px 12px;
+	height: ${TABLE_PAGER_HEIGHT}px;
+	padding: 0 12px;
 	position: sticky;
 	left: 0;
 `;

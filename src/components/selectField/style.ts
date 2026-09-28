@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FIT } from "../../styles/layout";
 import { theme } from "../../styles/theme";
 
 export const Wrapper = styled.label`
@@ -21,6 +22,11 @@ export const Select = styled.select`
     width: 100%;
     height: 44px;
     padding: 0 12px;
+
+    ${FIT} {
+        height: 38px;
+    }
+
     color: ${theme.colors.text};
     font-family: inherit;
     font-size: 14px;

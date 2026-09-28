@@ -61,7 +61,7 @@ export function CashFlow({ range, summary, loading, error }: CashFlowProps) {
             <ColumnChart points={points} ariaLabel={daily ? "Receitas e despesas por dia" : "Receitas e despesas por mês"} />
           ) : (
             <TableArea>
-              <Table data={rows} columns={columns} pageSize={6} rowKey="key" />
+              <Table data={rows} columns={columns} pageSize={6} fitRows rowKey="key" />
             </TableArea>
           )}
         </ChartBody>

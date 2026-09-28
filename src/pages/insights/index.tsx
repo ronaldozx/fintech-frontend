@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { Frame } from "../../components/frame";
+import { Fill } from "../../components/pageFill/style";
 import { MonthNavigator } from "../../components/monthNavigator";
 import { PageHeader } from "../../components/pageHeader";
 import { StatTile } from "../../components/statTile";
@@ -12,7 +13,8 @@ import { hasAnyInsight, projectionSummary, savingsHint, savingsValue } from "../
 import { formatDate, formatMoney } from "../../utils/format";
 import { currentMonth } from "../../utils/month";
 import type { CategoryChange } from "../../types/Insights";
-import { Grid, Highlight, List, Message, Note, Row, RowAmount, RowInfo, Section, Stats, Subheading } from "./style";
+import { FitList } from "./FitList";
+import { Cell, Grid, Highlight, List, Message, Note, Row, RowAmount, RowInfo, Section, Stats, Subheading, TwoColumns } from "./style";
 
 function ChangeRows({ changes, tone }: { changes: CategoryChange[]; tone: "up" | "down" }) {
     return (
@@ -43,6 +45,7 @@ export function Insights() {
 
     const format = (value: number | undefined) => (data && value !== undefined ? formatMoney(value) : "—");
     const hasMovers = data !== null && (data.movers.increases.length > 0 || data.movers.decreases.length > 0);
+    const showProjection = data !== null && data.projection !== null && data.projection.spentSoFar > 0;
 
     return (
         <>
@@ -67,9 +70,11 @@ export function Insights() {
 
             {data && !hasAnyInsight(data) && <Message>Sem movimentações neste mês para analisar.</Message>}
 
+            <Fill>
             {data && (
                 <Grid $stale={stale}>
-                    {data.projection && data.projection.spentSoFar > 0 && (
+                    {showProjection && data.projection && (
+                        <Cell>
                         <Frame title="Projeção do mês">
                             <Section>
                                 <Highlight>{formatMoney(data.projection.projected)}</Highlight>
@@ -81,35 +86,40 @@ export function Insights() {
                                 <Note>Estimativa linear: despesas concentradas, como aluguel, distorcem o resultado.</Note>
                             </Section>
                         </Frame>
+                        </Cell>
                     )}
 
                     {hasMovers && (
+                        <Cell $span={2}>
                         <Frame title="Categorias que mais mudaram">
-                            <Section>
+                            <TwoColumns>
                                 {data.movers.increases.length > 0 && (
-                                    <>
+                                    <Section>
                                         <Subheading>Subiram em relação ao mês anterior</Subheading>
                                         <ChangeRows changes={data.movers.increases} tone="up" />
-                                    </>
+                                    </Section>
                                 )}
                                 {data.movers.decreases.length > 0 && (
-                                    <>
+                                    <Section>
                                         <Subheading>Caíram em relação ao mês anterior</Subheading>
                                         <ChangeRows changes={data.movers.decreases} tone="down" />
-                                    </>
+                                    </Section>
                                 )}
-                            </Section>
+                            </TwoColumns>
                         </Frame>
+                        </Cell>
                     )}
 
+                    <Cell>
                     <Frame title="Cobranças recorrentes">
                         {data.recurring.charges.length === 0 ? (
                             <Message>Nenhuma cobrança mensal fixa identificada nos últimos meses.</Message>
                         ) : (
                             <Section>
                                 <Note>Cobradas uma vez por mês com valor parecido: {formatMoney(data.recurring.monthlyTotal)} por mês.</Note>
-                                <List>
-                                    {data.recurring.charges.map((charge) => (
+                                <FitList
+                                    items={data.recurring.charges}
+                                    renderItem={(charge) => (
                                         <Row key={charge.description}>
                                             <RowInfo>
                                                 <strong>{charge.description}</strong>
@@ -119,18 +129,21 @@ export function Insights() {
                                             </RowInfo>
                                             <RowAmount>{formatMoney(charge.averageAmount)}</RowAmount>
                                         </Row>
-                                    ))}
-                                </List>
+                                    )}
+                                />
                             </Section>
                         )}
                     </Frame>
+                    </Cell>
 
+                    <Cell>
                     <Frame title="Gastos fora do padrão">
                         {data.unusual.length === 0 ? (
                             <Message>Nenhum gasto muito acima do normal da categoria neste mês.</Message>
                         ) : (
-                            <List>
-                                {data.unusual.map((item) => (
+                            <FitList
+                                items={data.unusual}
+                                renderItem={(item) => (
                                     <Row key={`${item.date}-${item.description}-${item.amount}`}>
                                         <RowInfo>
                                             <strong>{item.description}</strong>
@@ -140,17 +153,20 @@ export function Insights() {
                                         </RowInfo>
                                         <RowAmount $tone="up">{formatMoney(item.amount)}</RowAmount>
                                     </Row>
-                                ))}
-                            </List>
+                                )}
+                            />
                         )}
                     </Frame>
+                    </Cell>
 
+                    <Cell $span={showProjection ? 1 : 2}>
                     <Frame title="Maiores destinos do mês">
                         {data.topMerchants.length === 0 ? (
                             <Message>Sem despesas neste mês.</Message>
                         ) : (
-                            <List>
-                                {data.topMerchants.map((merchant) => (
+                            <FitList
+                                items={data.topMerchants}
+                                renderItem={(merchant) => (
                                     <Row key={merchant.description}>
                                         <RowInfo>
                                             <strong>{merchant.description}</strong>
@@ -158,12 +174,14 @@ export function Insights() {
                                         </RowInfo>
                                         <RowAmount>{formatMoney(merchant.total)}</RowAmount>
                                     </Row>
-                                ))}
-                            </List>
+                                )}
+                            />
                         )}
                     </Frame>
+                    </Cell>
                 </Grid>
             )}
+            </Fill>
         </>
     );
 }

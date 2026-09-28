@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FIT } from "../../styles/layout";
 
 export const Main = styled.main`
     margin-left: 72px;
@@ -13,6 +14,12 @@ export const Main = styled.main`
 
     & > * {
         flex-shrink: 0;
+    }
+
+    ${FIT} {
+        padding: 16px 24px 20px;
+        gap: 14px;
+        overflow: hidden;
     }
 
     @media (max-width: 720px) {

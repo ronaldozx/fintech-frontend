@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FIT } from "../../styles/layout";
 import { theme } from "../../styles/theme";
 
 export const Tile = styled.div<{ $hero: boolean; $accent?: string }>`
@@ -15,6 +16,11 @@ export const Tile = styled.div<{ $hero: boolean; $accent?: string }>`
     border-radius: ${theme.radius.large};
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 18px 40px rgba(0,0,0,0.35)${(props) => (props.$hero ? `, ${theme.glow.accent}` : "")};
     overflow: hidden;
+
+    ${FIT} {
+        gap: 3px;
+        padding: ${(props) => (props.$hero ? "clamp(10px, 1.8vh, 20px) 22px" : "clamp(8px, 1.4vh, 16px) 20px")};
+    }
 
     &::before {
         content: '';
@@ -50,6 +56,11 @@ export const Value = styled.div<{ $hero: boolean }>`
     overflow: hidden;
     text-overflow: ellipsis;
 
+    ${FIT} {
+        font-size: ${(props) => (props.$hero ? "clamp(26px, 5vh, 46px)" : "clamp(20px, 3.4vh, 28px)")};
+        line-height: 1.18;
+    }
+
     ${(props) => props.$hero && `
         background: ${theme.gradients.brandText};
         -webkit-background-clip: text;
@@ -59,6 +70,9 @@ export const Value = styled.div<{ $hero: boolean }>`
 `;
 
 export const Hint = styled.div`
+    overflow: hidden;
     color: ${theme.colors.textMuted};
     font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 `;

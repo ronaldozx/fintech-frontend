@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FIT } from "../../styles/layout";
 import { theme } from "../../styles/theme";
 
 export const Wrapper = styled.div`
@@ -16,6 +17,9 @@ export const InputContainer = styled.div`
 	border: 1px solid ${theme.colors.border};
 	padding: 11px 14px;
 	border-radius: ${theme.radius.medium};
+	${FIT} {
+		padding: 8px 14px;
+	}
 	transition: border-color 150ms ease, box-shadow 150ms ease;
 	&:focus-within {
 		border-color: ${theme.colors.accent};

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotate, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { DefaultButtonStyle } from "../../components/button/style";
 import { Frame } from "../../components/frame";
+import { Fill } from "../../components/pageFill/style";
 import { PageHeader } from "../../components/pageHeader";
 import { StatTile } from "../../components/statTile";
 import { UsageBar } from "../../components/usageBar";
@@ -103,8 +104,9 @@ export function Accounts() {
                 />
             </Stats>
 
+            <Fill>
             {alerts.length > 0 && (
-                <Frame title="Atenção">
+                <Frame title="Atenção" fit>
                     <AlertList>
                         {alerts.map((alert) => (
                             <AlertItem key={alert}>
@@ -135,6 +137,7 @@ export function Accounts() {
                     </Frame>
                 ))}
             </Groups>
+            </Fill>
         </>
     );
 }

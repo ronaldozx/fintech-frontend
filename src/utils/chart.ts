@@ -79,11 +79,11 @@ export const buildDaySeries = (range: DateRange, summary: DailySummary[]): Chart
     return points;
 };
 
-export const buildCategoryRows = (categories: CategorySummary[]): CategoryRow[] => {
+export const buildCategoryRows = (categories: CategorySummary[], maxVisible: number = MAX_VISIBLE_CATEGORIES): CategoryRow[] => {
     const grandTotal = categories.reduce((sum, item) => sum + item.total, 0);
     const sorted = [...categories].sort((a, b) => b.total - a.total);
 
-    const visible = sorted.length > MAX_VISIBLE_CATEGORIES + 1 ? sorted.slice(0, MAX_VISIBLE_CATEGORIES) : sorted;
+    const visible = sorted.length > maxVisible + 1 ? sorted.slice(0, maxVisible) : sorted;
     const rest = sorted.slice(visible.length);
 
     const rows = visible.map((item) => ({ ...item, share: grandTotal === 0 ? 0 : item.total / grandTotal }));
