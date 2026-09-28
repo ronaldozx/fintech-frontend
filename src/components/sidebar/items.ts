@@ -1,4 +1,4 @@
-import { faBullseye, faCalendarDays, faHome, faLightbulb, faReceipt, faWallet, type IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import { faBullseye, faCalendarDays, faChartLine, faHome, faLightbulb, faReceipt, faWallet, type IconDefinition } from "@fortawesome/free-solid-svg-icons";
 
 export type NavItemConfig = {
     path: string;
@@ -13,4 +13,5 @@ export const NAV_ITEMS: NavItemConfig[] = [
     { path: "/orcamentos", label: "Orçamentos e metas", icon: faBullseye },
     { path: "/insights", label: "Insights", icon: faLightbulb },
     { path: "/agenda", label: "Agenda", icon: faCalendarDays },
+    { path: "/investimentos", label: "Investimentos", icon: faChartLine },
 ];

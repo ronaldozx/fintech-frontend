@@ -6,6 +6,7 @@ import { Accounts } from "./pages/accounts"
 import { Budgets } from "./pages/budgets"
 import { Insights } from "./pages/insights"
 import { AgendaPage } from "./pages/agenda"
+import { Investments } from "./pages/investments"
 import { GlobalStyle } from "./styles/GlobalStyles"
 import { GuestRoute, ProtectedRoute } from "./components/routeGuard"
 import { AppLayout } from "./components/appLayout"
@@ -27,6 +28,7 @@ function App() {
             <Route path="/orcamentos" element={<Budgets/>}/>
             <Route path="/insights" element={<Insights/>}/>
             <Route path="/agenda" element={<AgendaPage/>}/>
+            <Route path="/investimentos" element={<Investments/>}/>
           </Route>
         </Route>
         <Route path="*" element={<Navigate to="/" replace/>}/>
