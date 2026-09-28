@@ -5,6 +5,7 @@ import { DefaultButtonStyle } from "../button/style";
 import Modal from "../modal";
 import { useBankConnections } from "../../hooks/useBankConnections";
 import { deleteConnection, syncTransactions } from "../../services/openFinance";
+import { formatRelative } from "../../utils/time";
 import type { BankConnection } from "../../types/OpenFinance";
 import { ErrorText, Info, List, Message, Meta, Name, Row, Success, Toolbar } from "./style";
 
@@ -23,6 +24,16 @@ function describe(connection: BankConnection) {
     const status = connection.status ? (STATUS_LABELS[connection.status] ?? connection.status) : "Sem status";
     const since = new Date(connection.createdAt).toLocaleDateString("pt-BR");
     return `${status} · conectado em ${since}`;
+}
+
+function syncLine(connection: BankConnection) {
+    if (connection.lastSyncError && connection.lastSyncAttemptAt) {
+        return { failed: true, text: `Falha ao sincronizar ${formatRelative(connection.lastSyncAttemptAt)}: ${connection.lastSyncError}` };
+    }
+    if (connection.lastSyncedAt) {
+        return { failed: false, text: `Sincronizado ${formatRelative(connection.lastSyncedAt)}` };
+    }
+    return { failed: false, text: "Ainda não sincronizado" };
 }
 
 export function BankConnectionsModal({ isOpen, onClose, onChanged }: BankConnectionsModalProps) {
@@ -51,7 +62,8 @@ export function BankConnectionsModal({ isOpen, onClose, onChanged }: BankConnect
         run(async () => {
             const result = await syncTransactions();
             const pairs = result.transferPairs > 0 ? `; ${result.transferPairs} transferência(s) entre suas contas tirada(s) dos totais` : "";
-            return `${result.imported} nova(s) transação(ões) importada(s)${pairs}`;
+            const failed = result.failed > 0 ? `; ${result.failed} banco(s) falharam` : "";
+            return `${result.imported} nova(s) transação(ões) importada(s)${pairs}${failed}`;
         });
     }
 
@@ -92,6 +104,10 @@ export function BankConnectionsModal({ isOpen, onClose, onChanged }: BankConnect
                         <Info>
                             <Name>{connection.institutionName ?? "Banco"}</Name>
                             <Meta>{describe(connection)}</Meta>
+                            {(() => {
+                                const line = syncLine(connection);
+                                return line.failed ? <ErrorText>{line.text}</ErrorText> : <Meta>{line.text}</Meta>;
+                            })()}
                         </Info>
                         <DefaultButtonStyle onClick={() => handleDelete(connection)} disabled={busy} title="Desconectar">
                             <FontAwesomeIcon icon={faTrash} />
