@@ -1,21 +1,6 @@
 import styled from "styled-components";
 import { theme } from "../../styles/theme";
 
-export const MonthNav = styled.div`
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-`;
-
-export const MonthLabel = styled.span`
-    min-width: 150px;
-    color: ${theme.colors.text};
-    font-family: ${theme.fonts.display};
-    font-size: 14px;
-    font-weight: 600;
-    text-align: center;
-`;
-
 export const Actions = styled.div`
     display: flex;
     flex-wrap: wrap;
