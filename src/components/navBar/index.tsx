@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { NotificationBell } from "../notificationBell";
 import { Container, Logo, LogoMark, LogoText, ContainerRight, DividerV, UserMenu, Avatar, UserInfo, UserName, UserRole, UserSideBar, Content, UserEmail, UserContent, LinkedText } from "./style";
@@ -13,6 +14,7 @@ const PlusIcon = () => (
 
 export function NavBar() {
     const { user, logout } = useAuth();
+    const navigate = useNavigate();
     const [ menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -86,8 +88,8 @@ export function NavBar() {
                                     </UserInfo>
                                 </UserContent>
                         
-                                <LinkedText><FontAwesomeIcon icon={faGear} />Configurations</LinkedText>
-                                <LinkedText onClick={logout}><FontAwesomeIcon icon={faSignOutAlt} />Logout</LinkedText>
+                                <LinkedText onClick={() => { setMenuOpen(false); navigate("/configuracoes"); }}><FontAwesomeIcon icon={faGear} />Configurações</LinkedText>
+                                <LinkedText onClick={logout}><FontAwesomeIcon icon={faSignOutAlt} />Sair</LinkedText>
                             </Content>
                         </UserSideBar>
                     )}
