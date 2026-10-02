@@ -1,73 +1,81 @@
-# React + TypeScript + Vite
+# Fintech Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interface de um app de finanças pessoais que lê as contas do próprio usuário via **Open Finance** (Pluggy) e mostra para onde o dinheiro está indo: fluxo de caixa, orçamentos, metas, agenda de contas, investimentos e um assistente baseado em regras.
 
-Currently, two official plugins are available:
+Backend: [fintech-backend](https://github.com/ronaldozx/fintech-backend)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Telas
 
-## React Compiler
+| Rota | Tela |
+| --- | --- |
+| `/home` | Visão geral: saldo do período, fluxo de caixa, despesas por categoria e transações recentes |
+| `/transacoes` | Busca e filtros, edição, lançamento manual, conciliação de transferências e exportação em CSV |
+| `/contas` | Saldos, cheque especial e limite dos cartões, direto dos bancos |
+| `/orcamentos` | Orçamentos por categoria e metas de economia |
+| `/insights` | Taxa de poupança, projeção do mês, categorias que mais mudaram, cobranças recorrentes e gastos fora do padrão |
+| `/agenda` | Próximos vencimentos (faturas e cobranças fixas) |
+| `/investimentos` | Carteira, alocação por tipo e cobertura da reserva de emergência |
+| `/assistente` | Sugestões por regras a partir dos seus dados, sem IA externa |
+| `/configuracoes` | Perfil, senha, exportação dos dados e exclusão da conta |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Também há um sino de notificações (orçamento estourado, metas, saúde da sincronização) e a conexão de bancos pelo widget da Pluggy.
 
-## Expanding the ESLint configuration
+## Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React 19 e TypeScript
+- Vite
+- styled-components
+- React Router
+- Axios
+- `react-pluggy-connect` para o fluxo de conexão de bancos
+- ESLint
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Os gráficos são SVG próprios, sem biblioteca de charts. O layout se ajusta à altura da janela para evitar rolagem de página em telas a partir de 1024 x 620.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Como rodar
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Pré-requisitos: Node 20.19+ (ou 22.12+) e o [backend](https://github.com/ronaldozx/fintech-backend) rodando em `http://localhost:8080`.
+
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+O app abre em `http://localhost:5173`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Para apontar para outra API, crie um `.env.local`:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+VITE_API_URL=https://sua-api.exemplo.com/
+```
+
+Outros comandos:
+
+```bash
+npm run lint     # ESLint
+npm run build    # checagem de tipos + build de produção
+npm run preview  # serve o build localmente
+```
+
+## Estrutura
+
+```
+src
+├── pages        uma pasta por rota
+├── modules      blocos de dashboard (cashflow, categorias, orçamentos...)
+├── components   componentes compartilhados (frame, tabela, modal, botões...)
+├── hooks        busca de dados e utilidades de interface
+├── services     chamadas à API
+├── context      autenticação
+├── styles       tema, estilos globais e cores dos gráficos
+├── types        tipos da API
+└── utils        formatação e regras puras
+```
+
+## Design
+
+Tema escuro em grafite com uma única cor de destaque (azul), bordas de 1px, sombras suaves e gráficos em tons sóbrios. As animações respeitam `prefers-reduced-motion`.
+
+## Aviso
+
+O projeto é educacional. As sugestões do assistente e a tela de investimentos não são recomendação financeira nem de investimento.
