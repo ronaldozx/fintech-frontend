@@ -10,24 +10,22 @@ export const Container = styled.section<{ $fit: boolean }>`
     width: 100%;
     height: ${(props) => (props.$fit ? "auto" : "100%")};
     min-height: 0;
-    padding: 18px;
-    background: linear-gradient(180deg, rgba(15,24,44,0.78) 0%, ${theme.colors.panel} 100%);
+    padding: 24px;
+    background: ${theme.colors.panel};
     backdrop-filter: blur(14px);
     border: 1px solid ${theme.colors.border};
     border-radius: ${theme.radius.large};
     box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.04),
-        0 24px 48px rgba(0,0,0,0.4),
-        ${theme.glow.soft};
+        inset 0 1px 0 rgba(255,255,255,0.03),
+        0 20px 40px rgba(0,0,0,0.3);
     overflow: hidden;
     transition: border-color 200ms ease, box-shadow 200ms ease;
 
     &:hover {
         border-color: ${theme.colors.borderStrong};
         box-shadow:
-            inset 0 1px 0 rgba(255,255,255,0.05),
-            0 24px 48px rgba(0,0,0,0.4),
-            0 0 28px rgba(34,211,238,0.10);
+            inset 0 1px 0 rgba(255,255,255,0.04),
+            0 20px 40px rgba(0,0,0,0.3);
     }
 
     ${FIT} {
@@ -43,7 +41,7 @@ export const Container = styled.section<{ $fit: boolean }>`
         height: 14px;
         border-color: ${theme.colors.accent};
         border-style: solid;
-        opacity: 0.55;
+        opacity: 0.4;
         pointer-events: none;
     }
 

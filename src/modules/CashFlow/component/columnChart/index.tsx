@@ -45,15 +45,6 @@ export function ColumnChart({ points, ariaLabel }: ColumnChartProps) {
     const heightOf = (value: number) => plotHeight * (value / scale.max);
     const centerOf = (index: number) => MARGIN.left + slot * index + slot / 2;
 
-    const peak = points.reduce(
-        (best, point, index) => {
-            if (point.income > best.value) return { index, value: point.income, series: "income" as const };
-            if (point.expense > best.value) return { index, value: point.expense, series: "expense" as const };
-            return best;
-        },
-        { index: -1, value: 0, series: "income" as "income" | "expense" },
-    );
-
     const active = activeIndex === null ? null : points[activeIndex];
     const labelStride = slot === 0 ? 1 : Math.max(1, Math.ceil(MIN_LABEL_SLOT / slot));
 
@@ -132,19 +123,6 @@ export function ColumnChart({ points, ariaLabel }: ColumnChartProps) {
                                 </g>
                             );
                         })}
-
-                        {peak.index >= 0 && (
-                            <text
-                                x={Math.min(Math.max(centerOf(peak.index), MARGIN.left + 14), MARGIN.left + plotWidth - 14)}
-                                y={yOf(peak.value) - 5}
-                                textAnchor="middle"
-                                fontSize={10}
-                                fontWeight={600}
-                                fill={chartColors.textPrimary}
-                            >
-                                {formatCompact(peak.value)}
-                            </text>
-                        )}
                     </Svg>
                 )}
 

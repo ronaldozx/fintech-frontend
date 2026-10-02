@@ -144,7 +144,3 @@ export const Amount = styled.div<{ $negative: boolean }>`
     }
 `;
 
-export const Message = styled.div`
-    color: ${theme.colors.textMuted};
-    font-size: 14px;
-`;

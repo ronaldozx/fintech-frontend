@@ -4,7 +4,7 @@ import { theme } from "../../styles/theme";
 export const Wrapper = styled.div`
     display: inline-flex;
     padding: 3px;
-    background: rgba(4,8,18,0.7);
+    background: rgba(0,0,0,0.2);
     border: 1px solid ${theme.colors.border};
     border-radius: ${theme.radius.medium};
 `;

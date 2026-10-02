@@ -20,24 +20,9 @@ export const GlobalStyle = createGlobalStyle`
     overflow: hidden;
     background-color: ${theme.colors.background};
     background-image:
-        radial-gradient(ellipse 70% 50% at 8% -10%, rgba(34,211,238,0.16) 0%, transparent 60%),
-        radial-gradient(ellipse 55% 45% at 100% 0%, rgba(139,92,246,0.14) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 50% 120%, rgba(34,211,238,0.07) 0%, transparent 70%);
+        radial-gradient(ellipse 60% 40% at 12% -10%, rgba(62,123,250,0.08) 0%, transparent 65%);
     background-attachment: fixed;
     position: relative;
-
-    &::before {
-        content: '';
-        position: fixed;
-        inset: 0;
-        background-image:
-            linear-gradient(rgba(125,211,252,0.035) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(125,211,252,0.035) 1px, transparent 1px);
-        background-size: 44px 44px;
-        mask-image: radial-gradient(ellipse 85% 75% at 50% 35%, black 0%, transparent 100%);
-        pointer-events: none;
-        z-index: 0;
-    }
   }
 
   #root {
@@ -60,7 +45,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   ::selection {
-    background: rgba(34,211,238,0.3);
+    background: rgba(62,123,250,0.3);
   }
 
   ::-webkit-scrollbar {

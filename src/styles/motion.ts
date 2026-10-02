@@ -20,14 +20,5 @@ export const growX = keyframes`
     }
 `;
 
-export const sheen = keyframes`
-    0%, 62% {
-        transform: translateX(-130%);
-    }
-    100% {
-        transform: translateX(130%);
-    }
-`;
-
 export const GROW_MS = 700;
 export const GROW_EASING = "cubic-bezier(0.2, 0.8, 0.2, 1)";

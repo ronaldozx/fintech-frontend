@@ -56,14 +56,14 @@ export const Count = styled.span<{ $critical: boolean }>`
     min-width: 18px;
     height: 18px;
     padding: 0 5px;
-    color: #050810;
+    color: #0B0C0F;
     font-family: ${theme.fonts.display};
     font-size: 11px;
     font-weight: 700;
     line-height: 18px;
     text-align: center;
     background: ${(props) => (props.$critical ? theme.colors.negative : theme.colors.accent)};
-    border: 1.5px solid #050810;
+    border: 1.5px solid #0B0C0F;
     border-radius: 9px;
     animation: ${(props) => (props.$critical ? pulse : "none")} 2s ease-in-out infinite;
 
@@ -81,10 +81,10 @@ export const Panel = styled.div`
     flex-direction: column;
     width: min(400px, calc(100vw - 24px));
     max-height: min(70vh, 540px);
-    background: linear-gradient(180deg, rgba(15,24,44,0.98) 0%, rgba(8,13,26,0.99) 100%);
-    border: 1px solid ${theme.colors.borderStrong};
+    background: ${theme.colors.panelSolid};
+    border: 1px solid ${theme.colors.border};
     border-radius: ${theme.radius.large};
-    box-shadow: 0 30px 80px rgba(0,0,0,0.7), ${theme.glow.soft};
+    box-shadow: ${theme.glow.soft};
     animation: ${pop} 180ms cubic-bezier(.2,.9,.3,1) both;
     overflow: hidden;
 
@@ -149,7 +149,7 @@ export const Item = styled.li<{ $severity: NotificationSeverity; $read: boolean 
         padding: 12px 16px;
         color: ${theme.colors.text};
         text-align: left;
-        background: ${(props) => (props.$read ? "transparent" : "rgba(34,211,238,0.04)")};
+        background: ${(props) => (props.$read ? "transparent" : "rgba(62,123,250,0.04)")};
         cursor: pointer;
         transition: background 120ms ease;
 

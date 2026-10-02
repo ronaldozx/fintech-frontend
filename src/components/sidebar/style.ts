@@ -8,7 +8,7 @@ export const Container = styled.nav`
     left: 0;
     height: calc(100vh - 64px);
     width: 72px;
-    background: rgba(6,10,20,0.7);
+    background: rgba(13,14,17,0.7);
     backdrop-filter: blur(12px);
     border-right: 1px solid ${theme.colors.border};
     display: flex;

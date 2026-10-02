@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
 const PlusIcon = () => (
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#050810" strokeWidth="2" strokeLinecap="round">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#0B0C0F" strokeWidth="2" strokeLinecap="round">
         <path d="M2 7h10M7 2v10"/>
     </svg>
 );

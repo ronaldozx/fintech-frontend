@@ -30,7 +30,7 @@ export const Select = styled.select`
     color: ${theme.colors.text};
     font-family: inherit;
     font-size: 14px;
-    background: rgba(4,8,18,0.7);
+    background: rgba(0,0,0,0.2);
     border: 1px solid ${theme.colors.border};
     border-radius: ${theme.radius.medium};
     color-scheme: dark;

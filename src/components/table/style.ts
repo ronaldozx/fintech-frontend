@@ -13,7 +13,7 @@ export const TableWrapper = styled.div`
 	height: 100%;
 	overflow: auto;
 	border-radius: ${theme.radius.medium};
-	background: rgba(4,8,18,0.45);
+	background: rgba(0,0,0,0.15);
 	border: 1px solid ${theme.colors.hairline};
 
 	${FIT} {

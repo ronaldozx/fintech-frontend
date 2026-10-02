@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
+import { faBookOpen, faSackDollar } from "@fortawesome/free-solid-svg-icons";
 import { DefaultButtonStyle } from "../../components/button/style";
+import { EmptyState } from "../../components/emptyState";
 import { FitList } from "../../components/fitList";
 import { Frame } from "../../components/frame";
 import { InvestmentGuide } from "../../components/investmentGuide";
@@ -23,7 +24,6 @@ import {
     Info,
     Layout,
     List,
-    Message,
     Money,
     Note,
     ROW_GAP,
@@ -96,7 +96,11 @@ export function Investments() {
 
             <Fill>
                 {data && data.investments.length === 0 ? (
-                    <Message>Nenhum investimento com saldo foi encontrado nas suas conexões. Se você tem aplicações, conecte a instituição pelo MeuPluggy.</Message>
+                    <EmptyState
+                        icon={faSackDollar}
+                        title="Nenhum investimento encontrado"
+                        description="Se você tem aplicações, conecte a instituição pelo MeuPluggy para ver sua carteira, alocação e reserva de emergência aqui."
+                    />
                 ) : (
                     <Layout>
                         <Cell>

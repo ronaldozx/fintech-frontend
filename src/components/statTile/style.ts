@@ -1,5 +1,4 @@
-import styled, { css } from "styled-components";
-import { sheen } from "../../styles/motion";
+import styled from "styled-components";
 import { FIT } from "../../styles/layout";
 import { theme } from "../../styles/theme";
 
@@ -10,17 +9,17 @@ export const Tile = styled.div<{ $hero: boolean; $accent?: string }>`
     justify-content: center;
     gap: 6px;
     min-width: 0;
-    padding: ${(props) => (props.$hero ? "22px 26px" : "18px 22px")};
-    background: linear-gradient(180deg, rgba(15,24,44,0.78) 0%, ${theme.colors.panel} 100%);
+    padding: ${(props) => (props.$hero ? "26px 30px" : "22px 26px")};
+    background: ${theme.colors.panel};
     backdrop-filter: blur(14px);
     border: 1px solid ${(props) => (props.$hero ? theme.colors.borderStrong : theme.colors.border)};
     border-radius: ${theme.radius.large};
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 18px 40px rgba(0,0,0,0.35)${(props) => (props.$hero ? `, ${theme.glow.accent}` : "")};
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 16px 32px rgba(0,0,0,0.28)${(props) => (props.$hero ? `, ${theme.glow.accent}` : "")};
     overflow: hidden;
 
     ${FIT} {
         gap: 3px;
-        padding: ${(props) => (props.$hero ? "clamp(10px, 1.8vh, 20px) 22px" : "clamp(8px, 1.4vh, 16px) 20px")};
+        padding: ${(props) => (props.$hero ? "clamp(10px, 1.8vh, 20px) 24px" : "clamp(8px, 1.4vh, 16px) 22px")};
     }
 
     &::before {
@@ -32,18 +31,6 @@ export const Tile = styled.div<{ $hero: boolean; $accent?: string }>`
         width: 3px;
         background: ${(props) => props.$accent ?? theme.gradients.brand};
     }
-
-    ${(props) => props.$hero && css`
-        &::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(115deg, transparent 42%, rgba(255,255,255,0.07) 50%, transparent 58%);
-            transform: translateX(-130%);
-            animation: ${sheen} 8s ease-in-out 1.2s infinite;
-            pointer-events: none;
-        }
-    `}
 `;
 
 export const Label = styled.div`
@@ -61,7 +48,7 @@ export const Label = styled.div`
 export const Value = styled.div<{ $hero: boolean }>`
     color: ${theme.colors.text};
     font-family: ${theme.fonts.display};
-    font-size: ${(props) => (props.$hero ? "clamp(34px, 4.2vw, 54px)" : "clamp(22px, 2.4vw, 30px)")};
+    font-size: ${(props) => (props.$hero ? "clamp(28px, 3vw, 38px)" : "clamp(22px, 2.4vw, 30px)")};
     font-weight: 700;
     line-height: 1.05;
     letter-spacing: -0.02em;
@@ -71,7 +58,7 @@ export const Value = styled.div<{ $hero: boolean }>`
     text-overflow: ellipsis;
 
     ${FIT} {
-        font-size: ${(props) => (props.$hero ? "clamp(26px, 5vh, 46px)" : "clamp(20px, 3.4vh, 28px)")};
+        font-size: ${(props) => (props.$hero ? "clamp(22px, 3.8vh, 32px)" : "clamp(20px, 3.4vh, 28px)")};
         line-height: 1.18;
     }
 
