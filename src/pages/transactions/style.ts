@@ -8,7 +8,7 @@ export const FiltersPanel = styled.section`
     gap: 14px;
     align-items: end;
     padding: 18px;
-    background: linear-gradient(180deg, rgba(15,24,44,0.78) 0%, ${theme.colors.panel} 100%);
+    background: ${theme.colors.panel};
     backdrop-filter: blur(14px);
     border: 1px solid ${theme.colors.border};
     border-radius: ${theme.radius.large};

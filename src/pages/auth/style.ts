@@ -17,16 +17,14 @@ export const Card = styled.div`
     flex-direction: column;
     width: 440px;
     max-width: 100%;
-    background: linear-gradient(180deg, rgba(15,24,44,0.86) 0%, rgba(8,13,26,0.9) 100%);
+    background: ${theme.colors.panelSolid};
     backdrop-filter: blur(16px);
     padding: 40px 36px;
-    border-radius: 20px;
-    border: 1px solid ${theme.colors.borderStrong};
+    border-radius: ${theme.radius.large};
+    border: 1px solid ${theme.colors.border};
     box-shadow:
-        0 0 0 1px rgba(34,211,238,0.04),
-        0 30px 80px rgba(0,0,0,0.65),
-        0 0 80px rgba(34,211,238,0.07),
-        inset 0 1px 0 rgba(255,255,255,0.05);
+        0 24px 60px rgba(0,0,0,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.03);
     gap: 12px;
     position: relative;
 
@@ -37,7 +35,7 @@ export const Card = styled.div`
         left: 12%;
         right: 12%;
         height: 1px;
-        background: linear-gradient(90deg, transparent, ${theme.colors.accent}, ${theme.colors.violet}, transparent);
+        background: linear-gradient(90deg, transparent, ${theme.colors.accent}, transparent);
     }
 
     @media (max-width: 768px) {
@@ -123,7 +121,7 @@ export const LinkedContainer = styled.div`
 export const ButtonAuth = styled.button`
     padding: 13px 16px;
     background: ${theme.gradients.brand};
-    color: #04060c;
+    color: #0B0C0F;
     border-radius: ${theme.radius.medium};
     font-family: ${theme.fonts.display};
     font-size: 14px;
@@ -131,12 +129,12 @@ export const ButtonAuth = styled.button`
     letter-spacing: 0.08em;
     text-transform: uppercase;
     border: none;
-    box-shadow: 0 8px 24px rgba(34,211,238,0.22);
+    box-shadow: 0 8px 24px rgba(62,123,250,0.22);
     transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
 
     &:hover {
         filter: brightness(1.08);
-        box-shadow: 0 10px 30px rgba(34,211,238,0.35);
+        box-shadow: 0 10px 30px rgba(62,123,250,0.3);
     }
 
     &:active {

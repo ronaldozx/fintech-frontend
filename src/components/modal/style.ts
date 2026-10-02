@@ -4,7 +4,7 @@ import { theme } from "../../styles/theme";
 export const Overlay = styled.div`
   position: fixed;
   inset: 0;
-  background: rgba(2,4,10,0.72);
+  background: rgba(4,5,7,0.72);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,10 +19,10 @@ export const Dialog = styled.div`
   margin: 16px;
   padding: 22px;
   color: ${theme.colors.text};
-  background: linear-gradient(180deg, rgba(15,24,44,0.96) 0%, rgba(8,13,26,0.98) 100%);
-  border: 1px solid ${theme.colors.borderStrong};
+  background: ${theme.colors.panelSolid};
+  border: 1px solid ${theme.colors.border};
   border-radius: ${theme.radius.large};
-  box-shadow: 0 30px 80px rgba(0,0,0,0.7), ${theme.glow.soft};
+  box-shadow: ${theme.glow.soft};
   display: flex;
   flex-direction: column;
   gap: 14px;

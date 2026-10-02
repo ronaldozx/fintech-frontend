@@ -16,7 +16,7 @@ export function SummaryStats({ summary, loading }: SummaryStatsProps) {
 
     return (
         <Stats $stale={loading}>
-            <StatTile hero label="Saldo do período" value={format(income - expense)} hint="Receitas menos despesas, sem pagamento de fatura e transferências entre suas contas" />
+            <StatTile label="Saldo do período" value={format(income - expense)} hint="Receitas menos despesas, sem pagamento de fatura e transferências entre suas contas" />
             <StatTile label="Receitas" value={format(income)} accent={chartColors.income} />
             <StatTile label="Despesas" value={format(expense)} accent={chartColors.expense} />
         </Stats>

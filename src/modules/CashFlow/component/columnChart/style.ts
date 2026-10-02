@@ -56,7 +56,7 @@ export const HitArea = styled.rect`
 `;
 
 export const BarGroup = styled.g<{ $active: boolean }>`
-    filter: ${(props) => (props.$active ? "brightness(1.25) drop-shadow(0 0 6px rgba(34,211,238,0.35))" : "none")};
+    filter: ${(props) => (props.$active ? "brightness(1.25) drop-shadow(0 0 6px rgba(62,123,250,0.3))" : "none")};
     transition: filter 120ms ease;
 `;
 
@@ -66,7 +66,7 @@ export const Tooltip = styled.div`
     transform: translateX(-50%);
     min-width: 132px;
     padding: 8px 10px;
-    background: rgba(5,8,16,0.96);
+    background: rgba(11,12,15,0.96);
     border: 1px solid ${theme.colors.borderStrong};
     border-radius: 8px;
     box-shadow: 0 8px 24px rgba(2,6,10,0.6);

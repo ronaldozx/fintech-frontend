@@ -182,7 +182,3 @@ export const Small = styled.p`
     line-height: 1.4;
 `;
 
-export const Message = styled.div`
-    color: ${theme.colors.textMuted};
-    font-size: 14px;
-`;

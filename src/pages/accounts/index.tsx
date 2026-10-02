@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRotate, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
+import { faBuildingColumns, faRotate, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { DefaultButtonStyle } from "../../components/button/style";
+import { EmptyState } from "../../components/emptyState";
 import { Frame } from "../../components/frame";
 import { Fill } from "../../components/pageFill/style";
 import { PageHeader } from "../../components/pageHeader";
@@ -13,7 +14,7 @@ import { chartColors } from "../../styles/chart";
 import { buildAccountAlerts, creditUsed, groupByInstitution, usagePercent } from "../../utils/accounts";
 import { formatDate, formatMoney } from "../../utils/format";
 import type { AccountItem } from "../../types/Accounts";
-import { AccountName, AccountRow, AlertItem, AlertList, Amount, Groups, Message, RowHead, Rows, Stats } from "./style";
+import { AccountName, AccountRow, AlertItem, AlertList, Amount, Groups, RowHead, Rows, Stats } from "./style";
 
 function BankAccountRow({ account }: { account: AccountItem }) {
     const limit = account.overdraftLimit ?? 0;
@@ -118,10 +119,13 @@ export function Accounts() {
                 </Frame>
             )}
 
-            {data && accounts.length === 0 && (
-                <Message>Nenhuma conta encontrada. Conecte um banco na Visão geral pelo botão “Conectar banco”.</Message>
-            )}
-
+            {data && accounts.length === 0 ? (
+                <EmptyState
+                    icon={faBuildingColumns}
+                    title="Nenhuma conta conectada"
+                    description="Conecte um banco na Visão geral pelo botão “Conectar banco” para ver saldos e faturas aqui."
+                />
+            ) : (
             <Groups>
                 {groups.map((group) => (
                     <Frame key={`${group.accounts[0].connectionId}-${group.institution}`} title={group.institution}>
@@ -137,6 +141,7 @@ export function Accounts() {
                     </Frame>
                 ))}
             </Groups>
+            )}
             </Fill>
         </>
     );

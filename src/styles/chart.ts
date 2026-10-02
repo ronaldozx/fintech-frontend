@@ -2,11 +2,11 @@ import styled from "styled-components";
 import { theme } from "./theme";
 
 export const chartColors = {
-    income: "#3987e5",
-    expense: "#d95926",
-    category: "#3987e5",
-    grid: "rgba(255,255,255,0.06)",
-    axis: "rgba(255,255,255,0.16)",
+    income: "#4F7C82",
+    expense: "#D6D9DE",
+    category: "#4F7C82",
+    grid: "rgba(148,163,184,0.08)",
+    axis: "rgba(148,163,184,0.18)",
     textPrimary: theme.colors.text,
     textSecondary: theme.colors.textMuted,
 };

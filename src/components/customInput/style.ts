@@ -13,7 +13,7 @@ export const InputContainer = styled.div`
 	display: flex;
 	align-items: center;
 	gap: 8px;
-	background: rgba(4,8,18,0.7);
+	background: rgba(0,0,0,0.2);
 	border: 1px solid ${theme.colors.border};
 	padding: 11px 14px;
 	border-radius: ${theme.radius.medium};

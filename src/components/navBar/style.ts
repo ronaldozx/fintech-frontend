@@ -13,7 +13,7 @@ export const Container = styled.header`
     width: 100%;
     padding: 0 24px;
     box-sizing: border-box;
-    background: rgba(5,8,16,0.72);
+    background: rgba(11,12,15,0.72);
     backdrop-filter: blur(14px);
     border-bottom: 1px solid ${theme.colors.border};
     z-index: 1000;
@@ -25,8 +25,8 @@ export const Container = styled.header`
         left: 0;
         right: 0;
         height: 1px;
-        background: linear-gradient(90deg, transparent 0%, ${theme.colors.accent} 30%, ${theme.colors.violet} 70%, transparent 100%);
-        opacity: 0.55;
+        background: linear-gradient(90deg, transparent 0%, ${theme.colors.accent} 50%, transparent 100%);
+        opacity: 0.4;
         pointer-events: none;
     }
 `;
@@ -97,7 +97,7 @@ export const Badge = styled.div`
     background: ${theme.colors.accent};
     border-radius: 50%;
     box-shadow: 0 0 8px ${theme.colors.accent};
-    border: 1.5px solid #050810;
+    border: 1.5px solid #0B0C0F;
 `;
 
 export const DividerV = styled.div`
@@ -139,7 +139,7 @@ export const Avatar = styled.div`
     font-family: ${theme.fonts.display};
     font-size: 11px;
     font-weight: 700;
-    color: #04060c;
+    color: #0B0C0F;
 `;
 
 export const UserInfo = styled.div`
@@ -175,10 +175,10 @@ export const UserSideBar = styled.div`
     top: 12px;
     right: 16px;
     width: 300px;
-    background: linear-gradient(180deg, rgba(15,24,44,0.97) 0%, rgba(8,13,26,0.98) 100%);
-    border: 1px solid ${theme.colors.borderStrong};
+    background: ${theme.colors.panelSolid};
+    border: 1px solid ${theme.colors.border};
     border-radius: ${theme.radius.medium};
-    box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+    box-shadow: ${theme.glow.soft};
     padding: 12px;
     display: flex;
     flex-direction: column;
